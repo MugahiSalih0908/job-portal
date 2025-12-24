@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JobPortal for Employers - Hire top talent">
+    <title>For Employers - JobPortal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <style>
+        /* CSS Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out;
+        }
+        
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Page Specific Styles */
+        .employers-hero {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 100px 0 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .employers-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,0 V100 H1000 V0 Z" fill="%23ffffff" opacity="0.05"/></svg>');
+            background-size: cover;
+        }
+        
+        .feature-card-employer {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card-employer::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0,123,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        .feature-card-employer:hover::before {
+            opacity: 1;
+            animation: shine 1.5s ease-in-out;
+        }
+        
+        .feature-card-employer:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        
+        .feature-icon-employer {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            transition: all 0.5s ease;
+        }
+        
+        .feature-card-employer:hover .feature-icon-employer {
+            transform: rotate(360deg) scale(1.1);
+        }
+        
+        .feature-icon-employer i {
+            font-size: 2rem;
+            color: white;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card:hover {
+            border-color: #007bff;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        .pricing-card.popular {
+            border-color: #007bff;
+            transform: scale(1.05);
+            z-index: 2;
+        }
+        
+        .pricing-card.popular::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: #007bff;
+            color: white;
+            padding: 5px 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transform: rotate(45deg);
+            z-index: 1;
+        }
+        
+        .testimonial-employer {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-employer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .avatar-employer {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-employer:hover .avatar-employer {
+            border-color: #007bff;
+            transform: scale(1.1);
+        }
+        
+        .stats-employer {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-employer:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        .stats-employer .display-4 {
+            color: #007bff;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .stats-employer .display-4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .stats-employer:hover .display-4::after {
+            width: 100%;
+        }
+        
+        .cta-employer {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 80px 0;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-employer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,0 V100 H1000 V0 Z" fill="%23ffffff" opacity="0.1"/></svg>');
+            background-size: cover;
+        }
+        
+        .step-process {
+            position: relative;
+            padding-top: 60px;
+        }
+        
+        .step-process::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            z-index: 1;
+        }
+        
+        .step-item {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .step-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: #007bff;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .step-item:hover .step-number {
+            background: #0056b3;
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .form-employer {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .form-employer:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        
+        /* Button animations */
+        .btn-employer {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-employer::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn-employer:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        /* Counter animation */
+        .counter-employer {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #007bff;
+            display: inline-block;
+        }
+        
+        .counter-employer.animated {
+            animation: countUp 2s ease-out;
+        }
+        
+        @keyframes countUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .employers-hero {
+                padding: 80px 0 40px;
+            }
+            
+            .pricing-card.popular {
+                transform: scale(1);
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+            
+            .step-process::before {
+                display: none;
+            }
+            
+            .step-item {
+                margin-bottom: 30px;
+            }
+            
+            .stats-employer {
+                padding: 30px 20px;
+            }
+            
+            .cta-employer {
+                padding: 60px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .employers-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .feature-card-employer {
+                padding: 30px 20px;
+            }
+            
+            .form-employer {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Header -->
+    <div id="header-container"></div>
+
+    <!-- Hero Section -->
+    <section class="employers-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 animate-slideInLeft">
+                    <h1 class="display-4 fw-bold mb-4">Hire Smarter, Grow Faster</h1>
+                    <p class="lead mb-4">Access to millions of qualified candidates and advanced hiring tools to build your dream team.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-light btn-lg btn-employer animate-bounce" data-bs-toggle="modal" data-bs-target="#postJobModal">
+                            <i class="fas fa-plus me-2"></i> Post a Job
+                        </button>
+                        <a href="#contact" class="btn btn-outline-light btn-lg btn-employer">
+                            <i class="fas fa-phone me-2"></i> Contact Sales
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 animate-slideInRight">
+                    <img src="https://cdn.pixabay.com/photo/2018/05/18/15/30/web-design-3411373_1280.jpg" 
+                         alt="Employers" class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="stats-employer text-center animate-on-scroll">
+                <div class="row">
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="counter-employer">25K+</div>
+                        <p class="text-muted">Active Job Seekers</p>
+                    </div>
+                    <div class="col-md-3 col-6 mb-4">
+                        <div class="counter-employer" style="animation-delay: 0.1s">5K+</div>
+                        <p class="text-muted">Companies Hiring</p>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="counter-employer" style="animation-delay: 0.2s">85%</div>
+                        <p class="text-muted">Faster Hiring</p>
+                    </div>
+                    <div class="col-md-3 col-6">
+                        <div class="counter-employer" style="animation-delay: 0.3s">4.8/5</div>
+                        <p class="text-muted">Employer Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold">Why Choose JobPortal for Hiring?</h2>
+                <p class="text-muted">Advanced tools and features designed for modern hiring teams</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card-employer animate-on-scroll">
+                        <div class="feature-icon-employer">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Smart Candidate Matching</h4>
+                        <p class="text-muted">Our AI-powered algorithm matches job requirements with qualified candidates automatically.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary">AI Technology</span>
+                            <span class="badge bg-info">Smart Filters</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card-employer animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="feature-icon-employer">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Multi-Channel Promotion</h4>
+                        <p class="text-muted">Post once and promote across 50+ job boards and social networks.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-success">50+ Platforms</span>
+                            <span class="badge bg-warning">Social Media</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card-employer animate-on-scroll" style="animation-delay: 0.4s">
+                        <div class="feature-icon-employer">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Advanced Analytics</h4>
+                        <p class="text-muted">Track applications, source effectiveness, and hiring metrics in real-time.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-danger">Real-time</span>
+                            <span class="badge bg-dark">Analytics</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold">Simple Hiring Process</h2>
+                <p class="text-muted">Four easy steps to find your perfect candidate</p>
+            </div>
+            
+            <div class="step-process">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                        <div class="step-item animate-on-scroll">
+                            <div class="step-number">1</div>
+                            <h5 class="fw-bold mb-2">Post a Job</h5>
+                            <p class="text-muted">Create and post your job listing in minutes</p>
+                            <div class="mt-3">
+                                <i class="fas fa-file-alt fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                        <div class="step-item animate-on-scroll" style="animation-delay: 0.2s">
+                            <div class="step-number">2</div>
+                            <h5 class="fw-bold mb-2">Review Candidates</h5>
+                            <p class="text-muted">Receive qualified applications and filter candidates</p>
+                            <div class="mt-3">
+                                <i class="fas fa-users fa-2x text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="step-item animate-on-scroll" style="animation-delay: 0.4s">
+                            <div class="step-number">3</div>
+                            <h5 class="fw-bold mb-2">Interview & Assess</h5>
+                            <p class="text-muted">Schedule interviews and assess candidates</p>
+                            <div class="mt-3">
+                                <i class="fas fa-comments fa-2x text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="step-item animate-on-scroll" style="animation-delay: 0.6s">
+                            <div class="step-number">4</div>
+                            <h5 class="fw-bold mb-2">Hire Onboard</h5>
+                            <p class="text-muted">Make an offer and onboard your new hire</p>
+                            <div class="mt-3">
+                                <i class="fas fa-handshake fa-2x text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold">Flexible Pricing Plans</h2>
+                <p class="text-muted">Choose the plan that fits your hiring needs</p>
+            </div>
+            
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg-4">
+                    <div class="pricing-card animate-on-scroll">
+                        <div class="mb-4">
+                            <i class="fas fa-rocket fa-3x text-primary mb-3"></i>
+                            <h4 class="fw-bold mb-3">Basic</h4>
+                            <div class="display-4 fw-bold text-primary mb-3">$99<span class="fs-6 text-muted">/month</span></div>
+                            <p class="text-muted mb-4">Perfect for small businesses</p>
+                        </div>
+                        
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> 3 Job Postings</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> 100 Candidate Views</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Basic Analytics</li>
+                            <li class="mb-3"><i class="fas fa-times text-muted me-2"></i> AI Matching</li>
+                            <li class="mb-3"><i class="fas fa-times text-muted me-2"></i> Priority Support</li>
+                        </ul>
+                        
+                        <button class="btn btn-outline-primary w-100 btn-employer">Get Started</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="pricing-card popular animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="mb-4">
+                            <i class="fas fa-crown fa-3x text-warning mb-3 animate-pulse"></i>
+                            <h4 class="fw-bold mb-3">Professional</h4>
+                            <div class="display-4 fw-bold text-primary mb-3">$299<span class="fs-6 text-muted">/month</span></div>
+                            <p class="text-muted mb-4">Best for growing companies</p>
+                        </div>
+                        
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> 10 Job Postings</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Unlimited Views</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Advanced Analytics</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> AI Matching</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Priority Support</li>
+                        </ul>
+                        
+                        <button class="btn btn-primary w-100 btn-employer">Get Started</button>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="pricing-card animate-on-scroll" style="animation-delay: 0.4s">
+                        <div class="mb-4">
+                            <i class="fas fa-building fa-3x text-dark mb-3"></i>
+                            <h4 class="fw-bold mb-3">Enterprise</h4>
+                            <div class="display-4 fw-bold text-primary mb-3">Custom</div>
+                            <p class="text-muted mb-4">For large organizations</p>
+                        </div>
+                        
+                        <ul class="list-unstyled mb-4">
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Unlimited Postings</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Unlimited Views</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Custom Analytics</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Premium AI Matching</li>
+                            <li class="mb-3"><i class="fas fa-check text-success me-2"></i> Dedicated Support</li>
+                        </ul>
+                        
+                        <button class="btn btn-outline-primary w-100 btn-employer">Contact Sales</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold">Trusted by Leading Companies</h2>
+                <p class="text-muted">See what other employers say about us</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="testimonial-employer animate-on-scroll">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Sarah Johnson" class="avatar-employer me-3">
+                            <div>
+                                <h6 class="fw-bold mb-0">Sarah Johnson</h6>
+                                <small class="text-muted">HR Director, TechCorp</small>
+                                <div class="text-warning mt-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-muted">"We reduced our hiring time by 60% using JobPortal. The quality of candidates is exceptional and the platform is incredibly easy to use."</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary">60% Faster</span>
+                            <span class="badge bg-success">Quality Hires</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="testimonial-employer animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="d-flex align-items-center mb-4">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" 
+                                 alt="Michael Chen" class="avatar-employer me-3">
+                            <div>
+                                <h6 class="fw-bold mb-0">Michael Chen</h6>
+                                <small class="text-muted">CEO, StartupXYZ</small>
+                                <div class="text-warning mt-1">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-muted">"As a startup, we needed to hire quickly and efficiently. JobPortal delivered top talent within days. The AI matching feature is a game-changer!"</p>
+                        <div class="mt-3">
+                            <span class="badge bg-warning">Startup</span>
+                            <span class="badge bg-info">AI Matching</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="py-5" id="contact">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="form-employer animate-on-scroll">
+                        <div class="text-center mb-5">
+                            <h2 class="fw-bold">Get in Touch</h2>
+                            <p class="text-muted">Our team will contact you within 24 hours</p>
+                        </div>
+                        
+                        <form id="employerContactForm">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Email Address *</label>
+                                    <input type="email" class="form-control" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Company Name *</label>
+                                    <input type="text" class="form-control" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Company Size</label>
+                                <select class="form-select" required>
+                                    <option value="">Select company size</option>
+                                    <option>1-10 employees</option>
+                                    <option>11-50 employees</option>
+                                    <option>51-200 employees</option>
+                                    <option>201-500 employees</option>
+                                    <option>500+ employees</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">How can we help you? *</label>
+                                <textarea class="form-control" rows="4" placeholder="Tell us about your hiring needs..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 btn-lg btn-employer">
+                                <i class="fas fa-paper-plane me-2"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="cta-employer text-center animate-on-scroll">
+                <h2 class="display-5 fw-bold mb-4">Ready to Transform Your Hiring?</h2>
+                <p class="lead mb-4">Join 5,000+ companies that trust JobPortal for their recruitment needs</p>
+                <div class="d-flex justify-content-center flex-wrap gap-3">
+                    <button class="btn btn-light btn-lg btn-employer animate-bounce" data-bs-toggle="modal" data-bs-target="#postJobModal">
+                        Start Free Trial
+                    </button>
+                    <a href="#contact" class="btn btn-outline-light btn-lg btn-employer">
+                        Schedule a Demo
+                    </a>
+                    <a href="tel:+2499121234567" class="btn btn-warning btn-lg btn-employer">
+                        <i class="fas fa-phone me-2"></i> Call Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Personal Details -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">JobPortal</h5>
+                    <p>Helping companies find the best talent since 2023.</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/mjahdsalh.adm" class="text-white me-3" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dmmjhdslh/" class="text-white me-3" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:wadsalih2003@gmail.com" class="text-white me-3" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" class="text-white" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <div class="mt-3">
+                        <p class="mb-1 small">Contact Developer:</p>
+                        <p class="mb-1 small"><i class="fas fa-user me-2"></i> Mugahid Salih</p>
+                        <p class="mb-1 small"><i class="fas fa-envelope me-2"></i> wadsalih2003@gmail.com</p>
+                        <p class="mb-0 small"><i class="fas fa-phone me-2"></i> +249 912 123 4567</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">For Employers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">Post a Job</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Browse Candidates</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Resources</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">Blog</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Employer Guide</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6 class="fw-bold mb-3">Get Hiring Tips</h6>
+                    <p class="text-white-50 small">Subscribe to our newsletter for the latest hiring trends and tips.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-3">Developer Info</h6>
+                        <p class="text-white-50 small mb-1">
+                            This JobPortal website was developed by <strong>Mugahid Salih</strong>, 
+                            a passionate web developer specializing in creating user-friendly job platforms.
+                        </p>
+                        <p class="text-white-50 small mb-0">
+                            <i class="fas fa-code me-1"></i> Built with HTML5, CSS3, Bootstrap 5 & JavaScript
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-white-50">
+            <div class="text-center pt-3">
+                <p class="mb-0 text-white-50">&copy; 2024 JobPortal. All rights reserved. | Developed by Mugahid Salih</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Post Job Modal -->
+    <div class="modal fade" id="postJobModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Post a New Job</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="postJobForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Job Title *</label>
+                                <input type="text" class="form-control" placeholder="e.g., Senior Developer" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Job Type *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select type</option>
+                                    <option>Full-time</option>
+                                    <option>Part-time</option>
+                                    <option>Contract</option>
+                                    <option>Internship</option>
+                                    <option>Remote</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Location *</label>
+                                <input type="text" class="form-control" placeholder="e.g., Remote, New York" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Salary Range</label>
+                                <input type="text" class="form-control" placeholder="e.g., $80,000 - $120,000">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Job Description *</label>
+                            <textarea class="form-control" rows="6" placeholder="Describe the role, responsibilities, and requirements" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Required Skills</label>
+                            <input type="text" class="form-control" placeholder="Add skills separated by commas">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Experience Level *</label>
+                            <select class="form-select" required>
+                                <option value="">Select level</option>
+                                <option>Entry Level</option>
+                                <option>Mid Level</option>
+                                <option>Senior Level</option>
+                                <option>Executive</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="postJobBtn">Post Job</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="setup.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load unified header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                initializeHeaderScripts();
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+                document.getElementById('header-container').innerHTML = '<p>Error loading header</p>';
+            });
+
+        function initializeHeaderScripts() {
+            // This function will be called after header is loaded
+            console.log('Header loaded successfully');
+        }
+
+        // Scroll animation for elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        
+                        // If it's a counter element, animate the number
+                        if (entry.target.classList.contains('counter-employer')) {
+                            animateCounter(entry.target);
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Counter animation
+            function animateCounter(element) {
+                const text = element.textContent;
+                const suffix = text.replace(/[0-9.]/g, '');
+                const target = parseFloat(text.replace(/[^0-9.]/g, ''));
+                
+                if (isNaN(target)) return;
+                
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    
+                    if (suffix.includes('/')) {
+                        element.textContent = (current / 5).toFixed(1) + suffix;
+                    } else {
+                        element.textContent = Math.floor(current) + suffix;
+                    }
+                }, 30);
+            }
+            
+            // Form submission
+            document.getElementById('employerContactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                setTimeout(() => {
+                    submitBtn.innerHTML = '<i class="fas fa-check me-2"></i> Sent!';
+                    
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        this.reset();
+                        
+                        showNotification('Thank you for your message! Our team will contact you within 24 hours.', 'success');
+                    }, 2000);
+                }, 1500);
+            });
+            
+            // Post job form submission
+            document.getElementById('postJobBtn').addEventListener('click', function() {
+                const form = document.getElementById('postJobForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Posting...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check me-2"></i> Posted!';
+                    
+                    setTimeout(() => {
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('postJobModal'));
+                        modal.hide();
+                        
+                        this.innerHTML = 'Post Job';
+                        this.disabled = false;
+                        form.reset();
+                        
+                        showNotification('Job posted successfully! It will be visible to candidates shortly.', 'success');
+                    }, 1500);
+                }, 1500);
+            });
+            
+            // Pricing card hover effects
+            const pricingCards = document.querySelectorAll('.pricing-card');
+            pricingCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    if (!this.classList.contains('popular')) {
+                        this.style.transform = 'translateY(-10px)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    if (!this.classList.contains('popular')) {
+                        this.style.transform = 'translateY(0)';
+                    } else {
+                        this.style.transform = 'scale(1.05)';
+                    }
+                });
+            });
+            
+            // Feature card icon rotation on hover
+            const featureCards = document.querySelectorAll('.feature-card-employer');
+            featureCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.feature-icon-employer');
+                    if (icon) {
+                        icon.style.transform = 'rotate(360deg) scale(1.1)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.feature-icon-employer');
+                    if (icon) {
+                        icon.style.transform = 'rotate(0) scale(1)';
+                    }
+                });
+            });
+            
+            // Smooth scroll for contact link
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Newsletter subscription
+            const subscribeBtn = document.querySelector('footer .btn-primary');
+            const emailInput = document.querySelector('footer input[type="email"]');
+            
+            if (subscribeBtn && emailInput) {
+                subscribeBtn.addEventListener('click', function() {
+                    if (emailInput.value && isValidEmail(emailInput.value)) {
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Subscribing...';
+                        this.disabled = true;
+                        
+                        setTimeout(() => {
+                            this.innerHTML = 'Subscribed!';
+                            emailInput.value = '';
+                            
+                            setTimeout(() => {
+                                this.innerHTML = 'Subscribe';
+                                this.disabled = false;
+                            }, 2000);
+                            
+                            showNotification('Thank you for subscribing to our newsletter!', 'success');
+                        }, 1500);
+                    } else {
+                        showNotification('Please enter a valid email address', 'error');
+                    }
+                });
+            }
+            
+            // Email validation
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Show notification function
+            function showNotification(message, type = 'info') {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.global-notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = `global-notification alert alert-${type} alert-dismissible fade show`;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 120px;
+                    right: 20px;
+                    z-index: 9999;
+                    min-width: 300px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                `;
+                notification.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

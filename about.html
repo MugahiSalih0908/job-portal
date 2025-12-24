@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="About JobPortal - Our mission and values">
+    <title>About Us - JobPortal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <style>
+        /* CSS Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-180deg) scale(0.3);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out;
+        }
+        
+        .animate-rotateIn {
+            animation: rotateIn 0.8s ease-out;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Page Specific Styles */
+        .page-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 100px 0 50px;
+            margin-bottom: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,0 V100 H1000 V0 Z" fill="%23007bff" opacity="0.05"/></svg>');
+            background-size: cover;
+        }
+        
+        .mission-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border-top: 4px solid #007bff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0,123,255,0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+        
+        .mission-card:hover::before {
+            opacity: 1;
+            animation: shine 1.5s ease-in-out;
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) translateY(100%) rotate(45deg);
+            }
+        }
+        
+        .team-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .team-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .team-card:hover::after {
+            transform: scaleX(1);
+        }
+        
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .team-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 20px;
+            border: 3px solid #f8f9fa;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .team-card:hover .team-img {
+            transform: scale(1.1);
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0,123,255,0.3);
+        }
+        
+        .team-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(0,123,255,0.2) 0%, rgba(0,91,187,0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .team-card:hover .team-img::after {
+            opacity: 1;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #007bff;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+        
+        .timeline-item.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            position: relative;
+            width: 45%;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background: #007bff;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover .timeline-dot {
+            transform: translateX(-50%) scale(1.5);
+            box-shadow: 0 0 0 5px rgba(0,123,255,0.2);
+        }
+        
+        .value-card {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .value-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,123,255,0.1) 0%, rgba(0,91,187,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .value-card:hover::before {
+            opacity: 1;
+        }
+        
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .value-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .value-card:hover .value-icon {
+            transform: rotate(360deg) scale(1.1);
+        }
+        
+        .value-icon i {
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .display-4 {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .display-4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .display-4:hover::after {
+            width: 100%;
+        }
+        
+        /* Stats animation */
+        .counter {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #007bff;
+            display: inline-block;
+        }
+        
+        .counter.animated {
+            animation: countUp 2s ease-out;
+        }
+        
+        @keyframes countUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+            
+            .timeline-dot {
+                left: 20px;
+            }
+            
+            .page-header {
+                padding: 80px 0 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Header -->
+    <div id="header-container"></div>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center animate-fadeInUp">
+                    <h1 class="display-4 fw-bold mb-3">About JobPortal</h1>
+                    <p class="lead">Connecting talent with opportunity since 2023</p>
+                    <div class="mt-4 animate-float">
+                        <i class="fas fa-heart text-primary fa-2x me-3"></i>
+                        <i class="fas fa-users text-success fa-2x me-3"></i>
+                        <i class="fas fa-rocket text-warning fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission & Vision -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="mission-card animate-on-scroll">
+                        <div class="value-icon mb-4 animate-rotateIn">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Our Mission</h3>
+                        <p class="text-muted">To democratize job searching by providing a platform where everyone has equal access to employment opportunities, regardless of their background or location.</p>
+                        <p class="text-muted">We believe that finding the right job should be simple, transparent, and accessible to all.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 mb-4">
+                    <div class="mission-card animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="value-icon mb-4 animate-rotateIn" style="animation-delay: 0.3s">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="fw-bold mb-3">Our Vision</h3>
+                        <p class="text-muted">To become the world's most trusted career platform, connecting millions of professionals with their dream jobs while helping companies find the perfect talent.</p>
+                        <p class="text-muted">We envision a world where job searching is efficient, effective, and empowering for everyone involved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold">Our Journey</h2>
+                <p class="text-muted">From startup to industry leader</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-item animate-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5 class="fw-bold">2023 - Foundation</h5>
+                        <p class="text-muted">JobPortal was founded with a simple mission: to make job searching easier. Started with a team of 5 in a small office.</p>
+                        <div class="mt-2">
+                            <span class="badge bg-primary">Startup</span>
+                            <span class="badge bg-secondary">5 Members</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item animate-on-scroll" style="animation-delay: 0.2s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5 class="fw-bold">2024 - Growth</h5>
+                        <p class="text-muted">Reached 50,000 registered users and partnered with 1,000+ companies. Expanded our team to 25 members.</p>
+                        <div class="mt-2">
+                            <span class="badge bg-success">50K Users</span>
+                            <span class="badge bg-info">1K Companies</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item animate-on-scroll" style="animation-delay: 0.4s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5 class="fw-bold">2025 - Expansion</h5>
+                        <p class="text-muted">Launched mobile apps and expanded to 5 new countries. Reached 500,000+ active users.</p>
+                        <div class="mt-2">
+                            <span class="badge bg-warning">5 Countries</span>
+                            <span class="badge bg-success">500K Users</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timeline-item animate-on-scroll" style="animation-delay: 0.6s">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5 class="fw-bold">Present - Innovation</h5>
+                        <p class="text-muted">Implementing AI-powered matching and expanding our services to include career coaching and skill development.</p>
+                        <div class="mt-2">
+                            <span class="badge bg-danger">AI Innovation</span>
+                            <span class="badge bg-info">Career Services</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold">Our Values</h2>
+                <p class="text-muted">What drives us every day</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="value-card animate-on-scroll">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">User-Centric</h5>
+                        <p class="text-muted">We put our users first in everything we do, constantly improving based on their feedback.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="value-card animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Transparency</h5>
+                        <p class="text-muted">We believe in open communication and honest practices with both job seekers and employers.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="value-card animate-on-scroll" style="animation-delay: 0.4s">
+                        <div class="value-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h5 class="fw-bold mb-3">Innovation</h5>
+                        <p class="text-muted">We continuously innovate to provide better tools and features for our community.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold">Meet Our Leadership</h2>
+                <p class="text-muted">The people behind JobPortal</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="team-card animate-on-scroll">
+                        <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" 
+                             alt="CEO" class="team-img">
+                        <h5 class="fw-bold mb-1">Mugahid Salih</h5>
+                        <p class="text-primary mb-2">CEO & Founder</p>
+                        <p class="text-muted small">Former HR Director with 15+ years of experience in talent acquisition.</p>
+                        <div class="mt-3">
+                            <a href="https://www.facebook.com/mjahdsalh.adm" class="text-primary me-2" target="_blank">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="https://www.instagram.com/dmmjhdslh/" class="text-danger me-2" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="mailto:wadsalih2003@gmail.com" class="text-dark">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="team-card animate-on-scroll" style="animation-delay: 0.2s">
+                        <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" 
+                             alt="CTO" class="team-img">
+                        <h5 class="fw-bold mb-1">Wad Salih</h5>
+                        <p class="text-primary mb-2">Chief Technology Officer</p>
+                        <p class="text-muted small">Tech visionary with expertise in scalable platforms and AI solutions.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-primary">AI</span>
+                            <span class="badge bg-success">Cloud</span>
+                            <span class="badge bg-info">Scalability</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="team-card animate-on-scroll" style="animation-delay: 0.4s">
+                        <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" 
+                             alt="Head of Product" class="team-img">
+                        <h5 class="fw-bold mb-1">Adam Abdulmula</h5>
+                        <p class="text-primary mb-2">Head of Product</p>
+                        <p class="text-muted small">Product specialist focused on creating intuitive user experiences.</p>
+                        <div class="mt-3">
+                            <span class="badge bg-warning">UX</span>
+                            <span class="badge bg-info">Product</span>
+                            <span class="badge bg-success">Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-5 animate-on-scroll" style="animation-delay: 0.6s">
+                <div class="alert alert-info">
+                    <i class="fas fa-users me-2"></i>
+                    <strong>Our Team:</strong> We're a diverse group of passionate individuals dedicated to making job searching better for everyone.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="counter animate-on-scroll">25K+</div>
+                    <p class="text-muted">Jobs Posted</p>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="counter animate-on-scroll" style="animation-delay: 0.1s">5K+</div>
+                    <p class="text-muted">Companies</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="counter animate-on-scroll" style="animation-delay: 0.2s">150K+</div>
+                    <p class="text-muted">Active Users</p>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="counter animate-on-scroll" style="animation-delay: 0.3s">95%</div>
+                    <p class="text-muted">Satisfaction Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Personal Details -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">JobPortal</h5>
+                    <p>Connecting talent with opportunity since 2023.</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/mjahdsalh.adm" class="text-white me-3" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dmmjhdslh/" class="text-white me-3" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:wadsalih2003@gmail.com" class="text-white me-3" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" class="text-white" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <div class="mt-3">
+                        <p class="mb-1 small">Contact Developer:</p>
+                        <p class="mb-1 small"><i class="fas fa-user me-2"></i> Mugahid Salih</p>
+                        <p class="mb-1 small"><i class="fas fa-envelope me-2"></i> wadsalih2003@gmail.com</p>
+                        <p class="mb-0 small"><i class="fas fa-phone me-2"></i> +249 912 123 4567</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="about.html" class="text-white-50 text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Careers</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Press</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Contact Us</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6 class="fw-bold mb-3">Stay Updated</h6>
+                    <p class="text-white-50 small">Subscribe to our newsletter for company updates and career tips.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-3">Developer Info</h6>
+                        <p class="text-white-50 small mb-1">
+                            This JobPortal website was developed by <strong>Mugahid Salih</strong>, 
+                            a passionate web developer specializing in creating user-friendly job platforms.
+                        </p>
+                        <p class="text-white-50 small mb-0">
+                            <i class="fas fa-code me-1"></i> Built with HTML5, CSS3, Bootstrap 5 & JavaScript
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-white-50">
+            <div class="text-center pt-3">
+                <p class="mb-0 text-white-50">&copy; 2024 JobPortal. All rights reserved. | Developed by Mugahid Salih</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="setup.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load unified header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                initializeHeaderScripts();
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+                document.getElementById('header-container').innerHTML = '<p>Error loading header</p>';
+            });
+
+        function initializeHeaderScripts() {
+            // This function will be called after header is loaded
+            console.log('Header loaded successfully');
+        }
+
+        // Scroll animation for elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                        
+                        // If it's a counter element, animate the number
+                        if (entry.target.classList.contains('counter')) {
+                            animateCounter(entry.target);
+                        }
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Timeline animation
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            const timelineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+            
+            timelineItems.forEach(item => {
+                timelineObserver.observe(item);
+            });
+            
+            // Counter animation
+            function animateCounter(element) {
+                const target = parseInt(element.textContent);
+                const suffix = element.textContent.replace(/[0-9]/g, '');
+                let current = 0;
+                const increment = target / 50;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    element.textContent = Math.floor(current) + suffix;
+                }, 30);
+            }
+            
+            // Team card hover effect enhancement
+            const teamCards = document.querySelectorAll('.team-card');
+            teamCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Value card animation on hover
+            const valueCards = document.querySelectorAll('.value-card');
+            valueCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    const icon = this.querySelector('.value-icon');
+                    if (icon) {
+                        icon.style.transform = 'rotate(360deg) scale(1.1)';
+                    }
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    const icon = this.querySelector('.value-icon');
+                    if (icon) {
+                        icon.style.transform = 'rotate(0) scale(1)';
+                    }
+                });
+            });
+            
+            // Newsletter subscription
+            const subscribeBtn = document.querySelector('footer .btn-primary');
+            const emailInput = document.querySelector('footer input[type="email"]');
+            
+            if (subscribeBtn && emailInput) {
+                subscribeBtn.addEventListener('click', function() {
+                    if (emailInput.value && isValidEmail(emailInput.value)) {
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Subscribing...';
+                        this.disabled = true;
+                        
+                        setTimeout(() => {
+                            this.innerHTML = 'Subscribed!';
+                            emailInput.value = '';
+                            
+                            setTimeout(() => {
+                                this.innerHTML = 'Subscribe';
+                                this.disabled = false;
+                            }, 2000);
+                            
+                            showNotification('Thank you for subscribing to our newsletter!', 'success');
+                        }, 1500);
+                    } else {
+                        showNotification('Please enter a valid email address', 'error');
+                    }
+                });
+            }
+            
+            // Email validation
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Show notification function
+            function showNotification(message, type = 'info') {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.global-notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = `global-notification alert alert-${type} alert-dismissible fade show`;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 120px;
+                    right: 20px;
+                    z-index: 9999;
+                    min-width: 300px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                `;
+                notification.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

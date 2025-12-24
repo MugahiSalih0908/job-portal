@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Browse thousands of job opportunities">
+    <title>Job Listings - JobPortal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <style>
+        /* CSS Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes shake {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            10%, 30%, 50%, 70%, 90% {
+                transform: translateX(-5px);
+            }
+            20%, 40%, 60%, 80% {
+                transform: translateX(5px);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out;
+        }
+        
+        .animate-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Page Specific Styles */
+        .jobs-hero {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 100px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .jobs-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,0 V100 H1000 V0 Z" fill="%23007bff" opacity="0.05"/></svg>');
+            background-size: cover;
+        }
+        
+        .filter-sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            position: sticky;
+            top: 120px;
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .filter-sidebar:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12);
+            transform: translateY(-5px);
+        }
+        
+        .job-listing-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .job-listing-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .job-listing-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .job-listing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border-left-color: transparent;
+        }
+        
+        .job-featured {
+            border-left-color: #28a745;
+            background: linear-gradient(to right, #ffffff, #f8fff9);
+        }
+        
+        .job-featured::before {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+        
+        .job-urgent {
+            border-left-color: #dc3545;
+            background: linear-gradient(to right, #ffffff, #fff5f5);
+        }
+        
+        .job-urgent::before {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: contain;
+            background: white;
+            padding: 6px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .job-listing-card:hover .company-logo {
+            transform: scale(1.15) rotate(5deg);
+            border-color: #007bff;
+            box-shadow: 0 8px 20px rgba(0,123,255,0.2);
+        }
+        
+        .pagination-custom .page-link {
+            border: none;
+            color: #495057;
+            margin: 0 5px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination-custom .page-link:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .pagination-custom .page-item.active .page-link {
+            background: #007bff;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .filter-tag {
+            display: inline-flex;
+            align-items: center;
+            background: #e9f5ff;
+            color: #007bff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 123, 255, 0.2);
+        }
+        
+        .filter-tag:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.2);
+        }
+        
+        .filter-tag .close {
+            margin-left: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-tag:hover .close {
+            color: white;
+        }
+        
+        .salary-badge {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .job-listing-card:hover .salary-badge {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(40, 167, 69, 0.3);
+        }
+        
+        .view-toggle {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .view-toggle:hover {
+            border-color: #007bff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .view-toggle .btn {
+            border-radius: 0;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        
+        .view-toggle .btn:hover {
+            background: #f8f9fa;
+        }
+        
+        .view-toggle .btn.active {
+            background: #007bff;
+            color: white;
+        }
+        
+        .view-toggle .btn.active:hover {
+            background: #0056b3;
+        }
+        
+        /* Form control animations */
+        .form-control, .form-select {
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Checkbox animations */
+        .form-check-input {
+            transition: all 0.3s ease;
+        }
+        
+        .form-check-input:checked {
+            background-color: #007bff;
+            border-color: #007bff;
+            transform: scale(1.1);
+        }
+        
+        /* Range slider animation */
+        .form-range::-webkit-slider-thumb {
+            transition: all 0.3s ease;
+        }
+        
+        .form-range::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.2);
+        }
+        
+        /* Badge animations */
+        .badge {
+            transition: all 0.3s ease;
+        }
+        
+        .badge:hover {
+            transform: translateY(-2px);
+        }
+        
+        /* Loading animation */
+        .loading-dots {
+            display: inline-block;
+            position: relative;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .loading-dots div {
+            position: absolute;
+            top: 8px;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #007bff;
+            animation-timing-function: cubic-bezier(0, 1, 1, 0);
+        }
+        
+        .loading-dots div:nth-child(1) {
+            left: 2px;
+            animation: loading-dots1 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(2) {
+            left: 2px;
+            animation: loading-dots2 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(3) {
+            left: 8px;
+            animation: loading-dots2 0.6s infinite;
+        }
+        
+        .loading-dots div:nth-child(4) {
+            left: 14px;
+            animation: loading-dots3 0.6s infinite;
+        }
+        
+        @keyframes loading-dots1 {
+            0% {
+                transform: scale(0);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes loading-dots3 {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(0);
+            }
+        }
+        
+        @keyframes loading-dots2 {
+            0% {
+                transform: translate(0, 0);
+            }
+            100% {
+                transform: translate(6px, 0);
+            }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .filter-sidebar {
+                position: static;
+                top: auto;
+            }
+            
+            .jobs-hero {
+                padding: 80px 0 30px;
+            }
+            
+            .job-listing-card {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .jobs-hero {
+                padding: 70px 0 20px;
+            }
+            
+            .jobs-hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .company-logo {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .salary-badge {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .jobs-hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .job-listing-card {
+                padding: 15px;
+            }
+            
+            .view-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Header -->
+    <div id="header-container"></div>
+
+    <!-- Hero Section -->
+    <section class="jobs-hero">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-lg-8 animate-slideInLeft">
+                    <h1 class="display-5 fw-bold mb-3">Find Your Next Opportunity</h1>
+                    <p class="lead text-muted">Browse through 25,000+ job opportunities from top companies</p>
+                    <div class="mt-3">
+                        <span class="badge bg-primary me-2 animate-pulse">New Jobs Daily</span>
+                        <span class="badge bg-success me-2">Verified Companies</span>
+                        <span class="badge bg-info">Remote Positions</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Search Bar -->
+            <div class="row">
+                <div class="col-12 animate-fadeInUp">
+                    <div class="bg-white p-4 rounded shadow-lg">
+                        <form id="jobsSearchForm">
+                            <div class="row g-3">
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="fas fa-search text-muted"></i>
+                                        </span>
+                                        <input type="text" class="form-control border-start-0" 
+                                               placeholder="Job title, keywords, or company" id="jobSearch">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="fas fa-map-marker-alt text-muted"></i>
+                                        </span>
+                                        <select class="form-select border-start-0" id="locationSearch">
+                                            <option selected>All Locations</option>
+                                            <option>Remote</option>
+                                            <option>New York</option>
+                                            <option>San Francisco</option>
+                                            <option>London</option>
+                                            <option>Dubai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text bg-light border-end-0">
+                                            <i class="fas fa-briefcase text-muted"></i>
+                                        </span>
+                                        <select class="form-select border-start-0" id="jobTypeSearch">
+                                            <option selected>Job Type</option>
+                                            <option>Full-time</option>
+                                            <option>Part-time</option>
+                                            <option>Contract</option>
+                                            <option>Internship</option>
+                                            <option>Remote</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <button type="submit" class="btn btn-primary w-100" id="searchBtn">
+                                        <i class="fas fa-search me-1"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Filters -->
+            <div class="row mt-3">
+                <div class="col-12 animate-on-scroll">
+                    <div class="d-flex align-items-center flex-wrap">
+                        <span class="text-muted me-3">Active filters:</span>
+                        <div class="filter-tag">
+                            Remote <span class="close">&times;</span>
+                        </div>
+                        <div class="filter-tag">
+                            Full-time <span class="close">&times;</span>
+                        </div>
+                        <div class="filter-tag">
+                            $100k+ <span class="close">&times;</span>
+                        </div>
+                        <a href="#" class="text-primary ms-2 text-decoration-none" id="clearFilters">Clear all</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar Filters -->
+                <div class="col-lg-3">
+                    <div class="filter-sidebar animate-on-scroll">
+                        <h5 class="fw-bold mb-4">Filters</h5>
+                        
+                        <!-- Job Type -->
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-3">Job Type</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="type-fulltime" checked>
+                                <label class="form-check-label" for="type-fulltime">
+                                    Full-time <span class="text-muted">(12,340)</span>
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="type-parttime">
+                                <label class="form-check-label" for="type-parttime">
+                                    Part-time <span class="text-muted">(3,450)</span>
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="type-remote">
+                                <label class="form-check-label" for="type-remote">
+                                    Remote <span class="text-muted">(8,920)</span>
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="type-contract">
+                                <label class="form-check-label" for="type-contract">
+                                    Contract <span class="text-muted">(2,150)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience Level -->
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-3">Experience Level</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exp-entry">
+                                <label class="form-check-label" for="exp-entry">
+                                    Entry Level <span class="text-muted">(5,670)</span>
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exp-mid">
+                                <label class="form-check-label" for="exp-mid">
+                                    Mid Level <span class="text-muted">(9,820)</span>
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="exp-senior">
+                                <label class="form-check-label" for="exp-senior">
+                                    Senior Level <span class="text-muted">(4,560)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Salary Range -->
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-3">Salary Range</h6>
+                            <div class="mb-3">
+                                <label for="salaryRange" class="form-label">Up to: <span id="salaryValue">$150,000</span></label>
+                                <input type="range" class="form-range" id="salaryRange" min="30000" max="300000" step="10000" value="150000">
+                            </div>
+                        </div>
+                        
+                        <!-- Posted Date -->
+                        <div class="mb-4">
+                            <h6 class="fw-bold mb-3">Posted Date</h6>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="postedDate" id="date-24h">
+                                <label class="form-check-label" for="date-24h">
+                                    Last 24 hours
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="postedDate" id="date-week">
+                                <label class="form-check-label" for="date-week">
+                                    Last week
+                                </label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="postedDate" id="date-month" checked>
+                                <label class="form-check-label" for="date-month">
+                                    Last month
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary w-100" id="applyFiltersBtn">
+                            Apply Filters
+                        </button>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="filter-sidebar animate-on-scroll" style="animation-delay: 0.1s">
+                        <h6 class="fw-bold mb-3">Job Market Insights</h6>
+                        <div class="mb-3">
+                            <small class="text-muted">Remote jobs increasing</small>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-success" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted">Tech jobs demand</small>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-primary" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted">Average response time</small>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar bg-info" style="width: 60%"></div>
+                            </div>
+                        </div>
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            <small>Tip: Apply within 3 days for best results</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Job Listings -->
+                <div class="col-lg-9">
+                    <!-- Controls -->
+                    <div class="d-flex justify-content-between align-items-center mb-4 animate-on-scroll">
+                        <div>
+                            <h5 class="fw-bold mb-0">Showing <span id="jobCount">1-10</span> of 2,540 jobs</h5>
+                            <small class="text-muted">Sorted by: <span class="fw-bold">Relevance</span></small>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="text-muted me-3">View:</span>
+                            <div class="view-toggle me-3">
+                                <button class="btn btn-sm active" id="listView">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                                <button class="btn btn-sm" id="gridView">
+                                    <i class="fas fa-th-large"></i>
+                                </button>
+                            </div>
+                            <select class="form-select form-select-sm w-auto" id="sortJobs">
+                                <option>Sort by: Relevance</option>
+                                <option>Newest First</option>
+                                <option>Salary: High to Low</option>
+                                <option>Salary: Low to High</option>
+                                <option>Most Applied</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Job Cards -->
+                    <div id="jobListings">
+                        <!-- Featured Job -->
+                        <div class="job-listing-card job-featured animate-on-scroll">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-md-3 text-center mb-3 mb-md-0">
+                                    <img src="assets/images/Microsoft-logo.png"
+                                         alt="Microsoft Logo"
+                                         class="company-logo">
+                                </div>
+                                <div class="col-lg-6 col-md-5">
+                                    <span class="badge bg-success mb-2">Featured</span>
+                                    <h5 class="fw-bold mb-1">Senior Software Engineer</h5>
+                                    <p class="text-muted mb-2">Microsoft · Mountain View, CA</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark">Full-time</span>
+                                        <span class="badge bg-light text-dark">Remote</span>
+                                        <span class="badge bg-light text-dark">Senior</span>
+                                        <span class="badge bg-warning text-dark">JavaScript</span>
+                                        <span class="badge bg-info text-dark">React</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 text-md-end">
+                                    <div class="salary-badge mb-2">$180,000 - $250,000</div>
+                                    <small class="text-muted d-block">Posted 2 days ago</small>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary btn-sm apply-job-btn">
+                                            Apply Now
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm save-job-btn">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Regular Job 1 -->
+                        <div class="job-listing-card animate-on-scroll" style="animation-delay: 0.1s">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-md-3 text-center mb-3 mb-md-0">
+                                   <img src="assets/images/product-manager.png" 
+                                     alt="Product Manager" 
+                                    class="company-logo">
+                                </div>
+                                <div class="col-lg-6 col-md-5">
+                                    <h5 class="fw-bold mb-1">Product Manager</h5>
+                                    <p class="text-muted mb-2">MSA · Redmond</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark">Full-time</span>
+                                        <span class="badge bg-light text-dark">On-site</span>
+                                        <span class="badge bg-light text-dark">Mid Level</span>
+                                        <span class="badge bg-primary text-white">Product</span>
+                                        <span class="badge bg-success text-white">Management</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 text-md-end">
+                                    <div class="salary-badge mb-2">$140,000 - $190,000</div>
+                                    <small class="text-muted d-block">Posted 1 week ago</small>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary btn-sm apply-job-btn">
+                                            Apply Now
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm save-job-btn">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Urgent Job -->
+                        <div class="job-listing-card job-urgent animate-on-scroll" style="animation-delay: 0.2s">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-md-3 text-center mb-3 mb-md-0">
+                                    <img 
+                                      src="assets/images/msa-logo-light.png"
+                                      alt="MSA Company Logo"
+                                      class="company-logo"
+                                    >
+                                </div>
+                                <div class="col-lg-6 col-md-5">
+                                    <span class="badge bg-danger mb-2 animate-pulse">Urgent Hire</span>
+                                    <h5 class="fw-bold mb-1">Cloud Solutions Architect</h5>
+                                    <p class="text-muted mb-2">Amazon Web Services · Seattle, WA</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark">Full-time</span>
+                                        <span class="badge bg-light text-dark">Remote</span>
+                                        <span class="badge bg-light text-dark">Senior</span>
+                                        <span class="badge bg-dark text-white">AWS</span>
+                                        <span class="badge bg-info text-white">Cloud</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 text-md-end">
+                                    <div class="salary-badge mb-2">$200,000 - $300,000</div>
+                                    <small class="text-muted d-block">Posted 1 day ago</small>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary btn-sm apply-job-btn">
+                                            Apply Now
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm save-job-btn">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Regular Job 2 -->
+                        <div class="job-listing-card animate-on-scroll" style="animation-delay: 0.3s">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-md-3 text-center mb-3 mb-md-0">
+                                    <img src="assets/images/msa-logo.png" alt="MSA" class="company-logo">
+                                </div>
+                                <div class="col-lg-6 col-md-5">
+                                    <h5 class="fw-bold mb-1">UX Researcher</h5>
+                                    <p class="text-muted mb-2">Meta · Menlo Park, CA</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark">Full-time</span>
+                                        <span class="badge bg-light text-dark">Hybrid</span>
+                                        <span class="badge bg-light text-dark">Mid Level</span>
+                                        <span class="badge bg-warning text-dark">UX</span>
+                                        <span class="badge bg-info text-dark">Research</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 text-md-end">
+                                    <div class="salary-badge mb-2">$120,000 - $160,000</div>
+                                    <small class="text-muted d-block">Posted 3 days ago</small>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary btn-sm apply-job-btn">
+                                            Apply Now
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm save-job-btn">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Google Job -->
+                        <div class="job-listing-card animate-on-scroll" style="animation-delay: 0.4s">
+                            <div class="row align-items-center">
+                                <div class="col-lg-2 col-md-3 text-center mb-3 mb-md-0">
+                                    <img src="assets/images/google.png" alt="Google" class="company-logo">
+                                </div>
+                                <div class="col-lg-6 col-md-5">
+                                    <h5 class="fw-bold mb-1">Machine Learning Engineer</h5>
+                                    <p class="text-muted mb-2">Google · San Francisco, CA</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark">Full-time</span>
+                                        <span class="badge bg-light text-dark">Hybrid</span>
+                                        <span class="badge bg-light text-dark">Senior</span>
+                                        <span class="badge bg-danger text-white">ML</span>
+                                        <span class="badge bg-success text-white">AI</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 text-md-end">
+                                    <div class="salary-badge mb-2">$200,000 - $280,000</div>
+                                    <small class="text-muted d-block">Posted 5 days ago</small>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary btn-sm apply-job-btn">
+                                            Apply Now
+                                        </button>
+                                        <button class="btn btn-outline-primary btn-sm save-job-btn">
+                                            <i class="far fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Loading Indicator -->
+                    <div class="text-center my-5" id="loadingIndicator" style="display: none;">
+                        <div class="loading-dots mb-3">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <p class="text-muted">Loading more jobs...</p>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <nav aria-label="Page navigation" class="mt-5">
+                        <ul class="pagination pagination-custom justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Email Alerts -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center animate-on-scroll">
+                    <div class="p-4 bg-white rounded shadow-sm">
+                        <h3 class="fw-bold mb-3">Get Job Alerts</h3>
+                        <p class="text-muted mb-4">Never miss an opportunity. Get personalized job alerts delivered to your inbox.</p>
+                        <div class="input-group mx-auto" style="max-width: 500px;">
+                            <input type="email" class="form-control" placeholder="Enter your email" id="jobAlertEmail">
+                            <button class="btn btn-primary" type="button" id="subscribeJobAlerts">
+                                Subscribe
+                            </button>
+                        </div>
+                        <small class="text-muted mt-2 d-block">
+                            <i class="fas fa-shield-alt me-1"></i>
+                            We respect your privacy. Unsubscribe at any time.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Personal Details -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">JobPortal</h5>
+                    <p>Find your dream job with our comprehensive platform.</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/mjahdsalh.adm" class="text-white me-3" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dmmjhdslh/" class="text-white me-3" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:wadsalih2003@gmail.com" class="text-white me-3" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" class="text-white" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <div class="mt-3">
+                        <p class="mb-1 small">Contact Developer:</p>
+                        <p class="mb-1 small"><i class="fas fa-user me-2"></i> Mugahid Salih</p>
+                        <p class="mb-1 small"><i class="fas fa-envelope me-2"></i> wadsalih2003@gmail.com</p>
+                        <p class="mb-0 small"><i class="fas fa-phone me-2"></i> +249 912 123 4567</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Job Seekers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="jobs.html" class="text-white-50 text-decoration-none">Browse Jobs</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Career Advice</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Resume Tips</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Employers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="employers.html" class="text-white-50 text-decoration-none">Post a Job</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Pricing</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Employer Resources</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6 class="fw-bold mb-3">Stay Updated</h6>
+                    <p class="text-white-50 small">Get the latest job opportunities and career tips delivered to your inbox.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email" id="footerEmail">
+                        <button class="btn btn-primary" type="button" id="footerSubscribe">Subscribe</button>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-3">Developer Info</h6>
+                        <p class="text-white-50 small mb-1">
+                            This JobPortal website was developed by <strong>Mugahid Salih</strong>, 
+                            a passionate web developer specializing in creating user-friendly job platforms.
+                        </p>
+                        <p class="text-white-50 small mb-0">
+                            <i class="fas fa-code me-1"></i> Built with HTML5, CSS3, Bootstrap 5 & JavaScript
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-white-50">
+            <div class="text-center pt-3">
+                <p class="mb-0 text-white-50">&copy; 2024 JobPortal. All rights reserved. | Developed by Mugahid Salih</p>
+            </div>
+        </div>
+    </footer>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="setup.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load unified header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                initializeHeaderScripts();
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+                document.getElementById('header-container').innerHTML = '<p>Error loading header</p>';
+            });
+
+        function initializeHeaderScripts() {
+            // This function will be called after header is loaded
+            console.log('Header loaded successfully');
+        }
+
+        // Scroll animation for elements
+        document.addEventListener('DOMContentLoaded', function() {
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Salary range display
+            const salaryRange = document.getElementById('salaryRange');
+            const salaryValue = document.getElementById('salaryValue');
+            
+            if (salaryRange && salaryValue) {
+                salaryRange.addEventListener('input', function() {
+                    const value = parseInt(this.value);
+                    salaryValue.textContent = '$' + value.toLocaleString();
+                    salaryValue.classList.add('animate-shake');
+                    
+                    setTimeout(() => {
+                        salaryValue.classList.remove('animate-shake');
+                    }, 500);
+                });
+            }
+            
+            // Save job functionality
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.save-job-btn')) {
+                    const btn = e.target.closest('.save-job-btn');
+                    const jobCard = btn.closest('.job-listing-card');
+                    const jobTitle = jobCard.querySelector('h5').textContent;
+                    
+                    if (btn.innerHTML.includes('far fa-heart')) {
+                        // Save job
+                        btn.innerHTML = '<i class="fas fa-heart"></i>';
+                        btn.classList.remove('btn-outline-primary');
+                        btn.classList.add('btn-danger');
+                        showNotification(`"${jobTitle}" saved to your favorites!`, 'success');
+                        
+                        // Add animation
+                        btn.classList.add('animate-pulse');
+                        setTimeout(() => {
+                            btn.classList.remove('animate-pulse');
+                        }, 1000);
+                    } else {
+                        // Unsave job
+                        btn.innerHTML = '<i class="far fa-heart"></i>';
+                        btn.classList.remove('btn-danger');
+                        btn.classList.add('btn-outline-primary');
+                        showNotification(`"${jobTitle}" removed from favorites!`, 'info');
+                    }
+                }
+                
+                // Apply job functionality
+                if (e.target.closest('.apply-job-btn')) {
+                    const btn = e.target.closest('.apply-job-btn');
+                    const jobCard = btn.closest('.job-listing-card');
+                    const jobTitle = jobCard.querySelector('h5').textContent;
+                    const company = jobCard.querySelector('.text-muted').textContent.split('·')[0].trim();
+                    
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Applying...';
+                    btn.disabled = true;
+                    
+                    // Simulate application process
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-check me-1"></i> Applied';
+                        btn.classList.remove('btn-primary');
+                        btn.classList.add('btn-success');
+                        btn.disabled = false;
+                        
+                        showNotification(`Successfully applied for "${jobTitle}" at ${company}!`, 'success');
+                        
+                        // Reset button after 3 seconds
+                        setTimeout(() => {
+                            btn.innerHTML = originalText;
+                            btn.classList.remove('btn-success');
+                            btn.classList.add('btn-primary');
+                        }, 3000);
+                    }, 1500);
+                }
+                
+                // Filter tags removal
+                if (e.target.classList.contains('close')) {
+                    const tag = e.target.parentElement;
+                    tag.classList.add('animate-shake');
+                    
+                    setTimeout(() => {
+                        tag.remove();
+                        showNotification('Filter removed!', 'info');
+                    }, 300);
+                }
+            });
+            
+            // Clear all filters
+            document.getElementById('clearFilters').addEventListener('click', function(e) {
+                e.preventDefault();
+                const tags = document.querySelectorAll('.filter-tag');
+                
+                tags.forEach(tag => {
+                    tag.classList.add('animate-shake');
+                    setTimeout(() => {
+                        tag.remove();
+                    }, 100);
+                });
+                
+                setTimeout(() => {
+                    showNotification('All filters cleared!', 'success');
+                }, 500);
+            });
+            
+            // Apply filters button
+            document.getElementById('applyFiltersBtn').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Applying...';
+                this.disabled = true;
+                
+                // Simulate filter application
+                setTimeout(() => {
+                    this.innerHTML = 'Apply Filters';
+                    this.disabled = false;
+                    
+                    // Show loading indicator
+                    const loadingIndicator = document.getElementById('loadingIndicator');
+                    loadingIndicator.style.display = 'block';
+                    
+                    // Hide job listings temporarily
+                    const jobListings = document.getElementById('jobListings');
+                    jobListings.style.opacity = '0.5';
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        loadingIndicator.style.display = 'none';
+                        jobListings.style.opacity = '1';
+                        
+                        showNotification('Filters applied successfully!', 'success');
+                        
+                        // Animate job cards
+                        const jobCards = document.querySelectorAll('.job-listing-card');
+                        jobCards.forEach((card, index) => {
+                            card.style.animationDelay = `${index * 0.1}s`;
+                            card.classList.add('animate-on-scroll');
+                        });
+                    }, 1000);
+                }, 500);
+            });
+            
+            // View toggle
+            document.getElementById('listView').addEventListener('click', function() {
+                if (!this.classList.contains('active')) {
+                    document.getElementById('gridView').classList.remove('active');
+                    this.classList.add('active');
+                    showNotification('Switched to list view', 'info');
+                }
+            });
+            
+            document.getElementById('gridView').addEventListener('click', function() {
+                if (!this.classList.contains('active')) {
+                    document.getElementById('listView').classList.remove('active');
+                    this.classList.add('active');
+                    showNotification('Switched to grid view', 'info');
+                }
+            });
+            
+            // Sort jobs
+            document.getElementById('sortJobs').addEventListener('change', function() {
+                const loadingIndicator = document.getElementById('loadingIndicator');
+                loadingIndicator.style.display = 'block';
+                
+                setTimeout(() => {
+                    loadingIndicator.style.display = 'none';
+                    showNotification(`Sorted by: ${this.value}`, 'success');
+                }, 800);
+            });
+            
+            // Job search form
+            document.getElementById('jobsSearchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const searchBtn = document.getElementById('searchBtn');
+                const originalText = searchBtn.innerHTML;
+                
+                searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Searching...';
+                searchBtn.disabled = true;
+                
+                // Simulate search
+                setTimeout(() => {
+                    searchBtn.innerHTML = originalText;
+                    searchBtn.disabled = false;
+                    
+                    const jobSearch = document.getElementById('jobSearch').value;
+                    const location = document.getElementById('locationSearch').value;
+                    const jobType = document.getElementById('jobTypeSearch').value;
+                    
+                    showNotification(`Searching for "${jobSearch}" in ${location} (${jobType})`, 'info');
+                }, 1000);
+            });
+            
+            // Newsletter subscription
+            const subscribeBtns = ['subscribeJobAlerts', 'footerSubscribe'];
+            
+            subscribeBtns.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                const emailField = btnId === 'subscribeJobAlerts' ? 'jobAlertEmail' : 'footerEmail';
+                const emailInput = document.getElementById(emailField);
+                
+                if (btn && emailInput) {
+                    btn.addEventListener('click', function() {
+                        if (emailInput.value && isValidEmail(emailInput.value)) {
+                            this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Subscribing...';
+                            this.disabled = true;
+                            
+                            setTimeout(() => {
+                                this.innerHTML = 'Subscribed!';
+                                emailInput.value = '';
+                                
+                                setTimeout(() => {
+                                    this.innerHTML = btnId === 'subscribeJobAlerts' ? 'Subscribe' : 'Subscribe';
+                                    this.disabled = false;
+                                }, 2000);
+                                
+                                showNotification('Thank you for subscribing!', 'success');
+                            }, 1500);
+                        } else {
+                            showNotification('Please enter a valid email address', 'error');
+                        }
+                    });
+                }
+            });
+            
+            // Email validation
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Show notification function
+            function showNotification(message, type = 'info') {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.global-notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = `global-notification alert alert-${type} alert-dismissible fade show`;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 120px;
+                    right: 20px;
+                    z-index: 9999;
+                    min-width: 300px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                `;
+                notification.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+            
+            // Simulate job count update
+            function updateJobCount() {
+                const jobCountElement = document.getElementById('jobCount');
+                let count = 1;
+                
+                setInterval(() => {
+                    const randomIncrement = Math.floor(Math.random() * 3) + 1;
+                    count += randomIncrement;
+                    
+                    if (count > 2540) count = 1;
+                    
+                    const end = Math.min(count + 9, 2540);
+                    jobCountElement.textContent = `${count}-${end}`;
+                    
+                    // Add animation effect
+                    jobCountElement.classList.add('animate-pulse');
+                    setTimeout(() => {
+                        jobCountElement.classList.remove('animate-pulse');
+                    }, 500);
+                }, 5000);
+            }
+            
+            updateJobCount();
+        });
+    </script>
+</body>
+</html>

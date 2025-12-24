@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Find your dream job with JobPortal">
+    <title>JobPortal - Find Your Dream Job</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <style>
+        /* Custom styles for home page */
+        .hero-section {
+            position: relative;
+            height: 85vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+        }
+        
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            z-index: 1;
+        }
+        
+        .hero-slide.active {
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        /* Combined Header Styles */
+        .main-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .header-top {
+            padding: 15px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .search-box {
+            background: #f8f9fa;
+            border-radius: 50px;
+            padding: 8px 20px;
+            border: 1px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+        
+        .search-box:focus-within {
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.2);
+            background: white;
+        }
+        
+        .search-input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 8px 10px;
+            background: transparent;
+        }
+        
+        .search-btn {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border: none;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.3);
+        }
+        
+        .header-nav {
+            padding: 10px 0;
+        }
+        
+        .nav-item {
+            margin: 0 5px;
+        }
+        
+        .nav-link {
+            color: #495057;
+            font-weight: 500;
+            padding: 10px 15px !important;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: #007bff;
+            background: #f8f9fa;
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            color: #007bff;
+            font-weight: 600;
+        }
+        
+        .user-dropdown {
+            border-left: 1px solid #e9ecef;
+            padding-left: 20px;
+        }
+        
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            transition: transform 0.5s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotate(360deg);
+        }
+        
+        .job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #007bff;
+        }
+        
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 1px solid #e9ecef;
+            padding: 5px;
+            background: white;
+            transition: transform 0.3s ease;
+        }
+        
+        .job-card:hover .company-logo {
+            transform: scale(1.1);
+        }
+        
+        .category-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: #e9f5ff;
+            color: #007bff;
+            border-radius: 25px;
+            font-weight: 500;
+            margin: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-badge:hover {
+            background: #007bff;
+            color: white;
+            transform: translateY(-2px) scale(1.05);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-number::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            transition: left 0.5s ease;
+        }
+        
+        .stat-number:hover::after {
+            left: 0;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid #007bff;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateX(10px);
+        }
+        
+        .testimonial-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover .testimonial-avatar {
+            border-color: #007bff;
+            transform: scale(1.1);
+        }
+        
+        .slide-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .slide-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-indicator.active {
+            background: white;
+            transform: scale(1.3);
+        }
+        
+        .slide-indicator:hover {
+            transform: scale(1.2);
+            background: rgba(255,255,255,0.8);
+        }
+        
+        /* CSS Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out;
+        }
+        
+        .hero-content h1 {
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+        
+        .hero-content p {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+        
+        .hero-content .btn {
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+        
+        /* Hover effects for interactive elements */
+        .btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        .btn:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+        
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Scroll animation for elements */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .header-top .col-lg-2 {
+                order: 1;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .header-top .col-lg-3 {
+                order: 2;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .header-top .col-lg-1 {
+                order: 3;
+                width: 100%;
+            }
+            
+            .search-btn {
+                width: 100%;
+            }
+            
+            .hero-section {
+                height: 70vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 60vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Header -->
+    <div id="header-container"></div>
+
+    <!-- Hero Section with Auto-Changing Images -->
+    <section class="hero-section">
+        <!-- Hero Slides -->
+        <div class="hero-slide active" id="slide1" style="background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        <div class="hero-slide" id="slide2" style="background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        <div class="hero-slide" id="slide3" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        <div class="hero-slide" id="slide4" style="background-image: url('https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        <div class="hero-slide" id="slide5" style="background-image: url('https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        <div class="hero-slide" id="slide6" style="background-image: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        <div class="hero-slide" id="slide7" style="background-image: url('https://images.unsplash.com/photo-1573164713988-8665fc963095?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        <div class="hero-slide" id="slide8" style="background-image: url('https://images.unsplash.com/photo-1551836026-d5c2c0b4d3c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');"></div>
+        
+        <!-- Hero Content -->
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-lg-8 hero-content">
+                    <h1 class="display-4 fw-bold mb-4">Find Your <span class="text-warning animate-pulse">Dream Job</span> Today</h1>
+                    <p class="lead mb-4">Join thousands of professionals who found their perfect career match through JobPortal. Discover opportunities that align with your skills and aspirations.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="jobs.html" class="btn btn-light btn-lg px-4 py-3 fw-bold animate-float">
+                            <i class="fas fa-search me-2"></i> Browse Jobs
+                        </a>
+                        <a href="profile.html" class="btn btn-outline-light btn-lg px-4 py-3 fw-bold">
+                            <i class="fas fa-user-plus me-2"></i> Create Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide Indicators -->
+        <div class="slide-indicators">
+            <div class="slide-indicator active" data-slide="1"></div>
+            <div class="slide-indicator" data-slide="2"></div>
+            <div class="slide-indicator" data-slide="3"></div>
+            <div class="slide-indicator" data-slide="4"></div>
+            <div class="slide-indicator" data-slide="5"></div>
+            <div class="slide-indicator" data-slide="6"></div>
+            <div class="slide-indicator" data-slide="7"></div>
+            <div class="slide-indicator" data-slide="8"></div>
+        </div>
+    </section>
+
+    <!-- Job Categories -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold mb-3">Browse by Category</h2>
+                <p class="text-muted">Discover jobs in your field of expertise</p>
+            </div>
+            
+            <div class="row text-center">
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll">
+                        <i class="fas fa-code me-2"></i> Technology
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll" style="animation-delay: 0.1s">
+                        <i class="fas fa-briefcase me-2"></i> Business
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll" style="animation-delay: 0.2s">
+                        <i class="fas fa-heartbeat me-2"></i> Healthcare
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll" style="animation-delay: 0.3s">
+                        <i class="fas fa-chart-line me-2"></i> Finance
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll" style="animation-delay: 0.4s">
+                        <i class="fas fa-graduation-cap me-2"></i> Education
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll" style="animation-delay: 0.5s">
+                        <i class="fas fa-paint-brush me-2"></i> Design
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll" style="animation-delay: 0.6s">
+                        <i class="fas fa-shopping-cart me-2"></i> Marketing
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 mb-4">
+                    <div class="category-badge animate-on-scroll" style="animation-delay: 0.7s">
+                        <i class="fas fa-cogs me-2"></i> Engineering
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold mb-3">Why Choose JobPortal?</h2>
+                <p class="text-muted">We provide the best platform for job seekers and employers</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="feature-card animate-on-scroll">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #1976d2;">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Smart Job Matching</h4>
+                        <p class="text-muted">Our AI-powered algorithm matches your skills and preferences with the perfect job opportunities.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="feature-card animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); color: #388e3c;">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Verified Employers</h4>
+                        <p class="text-muted">All companies are thoroughly verified to ensure legitimate job opportunities and safe application process.</p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="feature-card animate-on-scroll" style="animation-delay: 0.4s">
+                        <div class="feature-icon" style="background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); color: #f57c00;">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4 class="fw-bold mb-3">Fast Application</h4>
+                        <p class="text-muted">Apply to multiple jobs with a single profile. Save time with our one-click application process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Jobs -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-5 animate-on-scroll">
+                <div>
+                    <h2 class="fw-bold mb-2">Featured Jobs</h2>
+                    <p class="text-muted">Hand-picked opportunities from top companies</p>
+                </div>
+                <a href="jobs.html" class="btn btn-primary animate-float">View All Jobs <i class="fas fa-arrow-right ms-2"></i></a>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="job-card animate-on-scroll">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex">
+                                <img src="assets/images/google.png" alt="Google" class="company-logo me-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">Senior Frontend Developer</h5>
+                                    <p class="text-primary mb-1">Google</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark"><i class="fas fa-map-marker-alt me-1"></i> Remote</span>
+                                        <span class="badge bg-light text-dark"><i class="fas fa-briefcase me-1"></i> Full-time</span>
+                                        <span class="badge bg-success text-white">$180k-$250k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm apply-job">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="job-card animate-on-scroll" style="animation-delay: 0.1s">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex">
+                                <img src="assets/images/Microsoft-logo.png" alt="Microsoft" class="company-logo me-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">Full Stack Engineer</h5>
+                                    <p class="text-primary mb-1">Microsoft</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark"><i class="fas fa-map-marker-alt me-1"></i> Redmond, WA</span>
+                                        <span class="badge bg-light text-dark"><i class="fas fa-briefcase me-1"></i> Full-time</span>
+                                        <span class="badge bg-success text-white">$140k-$190k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm apply-job">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="job-card animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex">
+                                <img src="assets/images/msa-logo.png" alt="MSA" class="company-logo me-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">Product Manager</h5>
+                                    <p class="text-primary mb-1">Modern Software</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark"><i class="fas fa-map-marker-alt me-1"></i> San Francisco, CA</span>
+                                        <span class="badge bg-light text-dark"><i class="fas fa-briefcase me-1"></i> Full-time</span>
+                                        <span class="badge bg-success text-white">$150k-$200k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm apply-job">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="job-card animate-on-scroll" style="animation-delay: 0.3s">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex">
+                                <img src="assets/images/product-manager.png" alt="Product" class="company-logo me-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">UX/UI Designer</h5>
+                                    <p class="text-primary mb-1">Creative Agency</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-light text-dark"><i class="fas fa-map-marker-alt me-1"></i> New York, NY</span>
+                                        <span class="badge bg-light text-dark"><i class="fas fa-briefcase me-1"></i> Contract</span>
+                                        <span class="badge bg-success text-white">$90k-$110k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-primary btn-sm apply-job">Apply Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="stat-number animate-on-scroll">50K+</div>
+                    <p class="text-muted">Job Opportunities</p>
+                </div>
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="stat-number animate-on-scroll" style="animation-delay: 0.1s">10K+</div>
+                    <p class="text-muted">Companies Hiring</p>
+                </div>
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="stat-number animate-on-scroll" style="animation-delay: 0.2s">200K+</div>
+                    <p class="text-muted">Professionals Hired</p>
+                </div>
+                <div class="col-lg-3 col-6 mb-4">
+                    <div class="stat-number animate-on-scroll" style="animation-delay: 0.3s">98%</div>
+                    <p class="text-muted">Success Rate</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5 animate-on-scroll">
+                <h2 class="fw-bold mb-3">Success Stories</h2>
+                <p class="text-muted">Hear from professionals who found their dream jobs</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="testimonial-card animate-on-scroll">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" alt="MSA" class="testimonial-avatar me-3">
+                            <div>
+                                <h5 class="fw-bold mb-0">MSA</h5>
+                                <p class="text-muted mb-0">Senior Developer at Google</p>
+                            </div>
+                        </div>
+                        <p class="text-muted">"JobPortal made my career transition seamless. The AI matching system connected me with opportunities I wouldn't have found otherwise."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.2s">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" alt="Mugahid" class="testimonial-avatar me-3">
+                            <div>
+                                <h5 class="fw-bold mb-0">Mugahid Salih</h5>
+                                <p class="text-muted mb-0">Product Manager at Microsoft</p>
+                            </div>
+                        </div>
+                        <p class="text-muted">"The application process was incredibly efficient. Within two weeks of creating my profile, I had multiple interview requests."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 mb-4">
+                    <div class="testimonial-card animate-on-scroll" style="animation-delay: 0.4s">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" alt="Adam" class="testimonial-avatar me-3">
+                            <div>
+                                <h5 class="fw-bold mb-0">Adam Abdulmula</h5>
+                                <p class="text-muted mb-0">UX Designer at Creative Agency</p>
+                            </div>
+                        </div>
+                        <p class="text-muted">"As a recent graduate, JobPortal helped me land my first design role. The platform is intuitive and the job recommendations are spot on."</p>
+                        <div class="text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-5" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+        <div class="container">
+            <div class="row align-items-center text-white">
+                <div class="col-lg-8 animate-slideInLeft">
+                    <h2 class="fw-bold mb-3">Ready to Advance Your Career?</h2>
+                    <p class="mb-0">Join thousands of professionals who found their perfect job match. Create your profile and start applying today!</p>
+                </div>
+                <div class="col-lg-4 text-lg-end animate-slideInRight">
+                    <a href="profile.html" class="btn btn-light btn-lg px-4 py-3 fw-bold">
+                        <i class="fas fa-user-plus me-2"></i> Create Free Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Personal Details -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">JobPortal</h5>
+                    <p>Your career journey starts here. Find your dream job with our advanced job matching platform.</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/mjahdsalh.adm" class="text-white me-3" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dmmjhdslh/" class="text-white me-3" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:wadsalih2003@gmail.com" class="text-white me-3" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" class="text-white" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <div class="mt-3">
+                        <p class="mb-1 small">Contact Developer:</p>
+                        <p class="mb-1 small"><i class="fas fa-user me-2"></i> Mugahid Salih</p>
+                        <p class="mb-1 small"><i class="fas fa-envelope me-2"></i> wadsalih2003@gmail.com</p>
+                        <p class="mb-0 small"><i class="fas fa-phone me-2"></i> +249 912 123 4567</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Job Seekers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="jobs.html" class="text-white-50 text-decoration-none">Browse Jobs</a></li>
+                        <li><a href="profile.html" class="text-white-50 text-decoration-none">Create Profile</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Career Advice</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Employers</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="employers.html" class="text-white-50 text-decoration-none">Post Jobs</a></li>
+                        <li><a href="employers.html" class="text-white-50 text-decoration-none">Browse Candidates</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6 class="fw-bold mb-3">Stay Updated</h6>
+                    <p class="text-white-50 small">Subscribe to our newsletter for the latest job opportunities and career tips.</p>
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Your email">
+                        <button class="btn btn-primary" type="button">Subscribe</button>
+                    </div>
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-3">Developer Info</h6>
+                        <p class="text-white-50 small mb-1">
+                            This JobPortal website was developed by <strong>Mugahid Salih</strong>, 
+                            a passionate web developer specializing in creating user-friendly job platforms.
+                        </p>
+                        <p class="text-white-50 small mb-0">
+                            <i class="fas fa-code me-1"></i> Built with HTML5, CSS3, Bootstrap 5 & JavaScript
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-white-50">
+            <div class="text-center pt-3">
+                <p class="mb-0 text-white-50">&copy; 2024 JobPortal. All rights reserved. | Developed by Mugahid Salih</p>
+            </div>
+        </div>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/main.js"></script>
+<script src="setup.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Load unified header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                initializeHeaderScripts();
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+                document.getElementById('header-container').innerHTML = '<p>Error loading header</p>';
+            });
+
+        function initializeHeaderScripts() {
+            // This function will be called after header is loaded
+            console.log('Header loaded successfully');
+        }
+
+        // Auto-changing hero images
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.hero-slide');
+            const indicators = document.querySelectorAll('.slide-indicator');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+            
+            // Initialize first slide
+            slides[0].classList.add('active');
+            indicators[0].classList.add('active');
+            
+            // Function to change slide
+            function changeSlide() {
+                // Remove active class from current slide
+                slides[currentSlide].classList.remove('active');
+                indicators[currentSlide].classList.remove('active');
+                
+                // Move to next slide
+                currentSlide = (currentSlide + 1) % totalSlides;
+                
+                // Add active class to new slide
+                slides[currentSlide].classList.add('active');
+                indicators[currentSlide].classList.add('active');
+            }
+            
+            // Start auto-slide every 5 seconds
+            const slideInterval = setInterval(changeSlide, 5000);
+            
+            // Add click event to indicators
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function() {
+                    // Clear interval when manually changing slide
+                    clearInterval(slideInterval);
+                    
+                    // Remove active class from current slide
+                    slides[currentSlide].classList.remove('active');
+                    indicators[currentSlide].classList.remove('active');
+                    
+                    // Set new slide
+                    currentSlide = index;
+                    
+                    // Add active class to new slide
+                    slides[currentSlide].classList.add('active');
+                    indicators[currentSlide].classList.add('active');
+                    
+                    // Restart auto-slide
+                    setTimeout(() => {
+                        setInterval(changeSlide, 5000);
+                    }, 10000);
+                });
+            });
+            
+            // Category badges click event
+            const categoryBadges = document.querySelectorAll('.category-badge');
+            categoryBadges.forEach(badge => {
+                badge.addEventListener('click', function() {
+                    const category = this.textContent.trim();
+                    window.location.href = `jobs.html?category=${encodeURIComponent(category)}`;
+                });
+            });
+            
+            // Apply Now buttons
+            const applyButtons = document.querySelectorAll('.apply-job');
+            applyButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const jobCard = this.closest('.job-card');
+                    const jobTitle = jobCard.querySelector('h5').textContent;
+                    const company = jobCard.querySelector('.text-primary').textContent;
+                    
+                    if (confirm(`Apply for "${jobTitle}" at ${company}?`)) {
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Applying...';
+                        this.disabled = true;
+                        
+                        // Simulate application process
+                        setTimeout(() => {
+                            this.innerHTML = '<i class="fas fa-check me-1"></i> Applied';
+                            this.classList.remove('btn-outline-primary');
+                            this.classList.add('btn-success');
+                            
+                            // Show success message
+                            showNotification(`Successfully applied for ${jobTitle}!`, 'success');
+                        }, 1500);
+                    }
+                });
+            });
+            
+            // Scroll animation for elements
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+            
+            // Newsletter subscription
+            const subscribeBtn = document.querySelector('footer .btn-primary');
+            const emailInput = document.querySelector('footer input[type="email"]');
+            
+            if (subscribeBtn && emailInput) {
+                subscribeBtn.addEventListener('click', function() {
+                    if (emailInput.value && isValidEmail(emailInput.value)) {
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Subscribing...';
+                        this.disabled = true;
+                        
+                        setTimeout(() => {
+                            this.innerHTML = 'Subscribed!';
+                            emailInput.value = '';
+                            
+                            setTimeout(() => {
+                                this.innerHTML = 'Subscribe';
+                                this.disabled = false;
+                            }, 2000);
+                            
+                            showNotification('Thank you for subscribing to our newsletter!', 'success');
+                        }, 1500);
+                    } else {
+                        showNotification('Please enter a valid email address', 'error');
+                    }
+                });
+            }
+            
+            // Email validation
+            function isValidEmail(email) {
+                const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return re.test(email);
+            }
+            
+            // Show notification function
+            function showNotification(message, type = 'info') {
+                // Remove existing notification
+                const existingNotification = document.querySelector('.global-notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification
+                const notification = document.createElement('div');
+                notification.className = `global-notification alert alert-${type} alert-dismissible fade show`;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 120px;
+                    right: 20px;
+                    z-index: 9999;
+                    min-width: 300px;
+                    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+                `;
+                notification.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (notification.parentElement) {
+                        notification.remove();
+                    }
+                }, 5000);
+            }
+        });
+    </script>
+</body>
+</html>

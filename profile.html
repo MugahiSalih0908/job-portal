@@ -1,0 +1,2510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your JobPortal profile">
+    <title>My Profile - JobPortal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/header.css">
+    <style>
+        /* CSS Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-180deg) scale(0.3);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+        
+        @keyframes progressBar {
+            0% {
+                width: 0%;
+            }
+            100% {
+                width: 85%;
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .animate-slideInLeft {
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .animate-slideInRight {
+            animation: slideInRight 0.8s ease-out;
+        }
+        
+        .animate-rotateIn {
+            animation: rotateIn 0.8s ease-out;
+        }
+        
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Page Specific Styles */
+        .profile-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 60px 0 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none"><path d="M0,0 V100 H1000 V0 Z" fill="%23007bff" opacity="0.05"/></svg>');
+            background-size: cover;
+        }
+        
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #007bff;
+        }
+        
+        .profile-stats {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-stats:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .profile-stats .progress {
+            height: 8px;
+            border-radius: 4px;
+        }
+        
+        .profile-stats .progress-bar {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            animation: progressBar 2s ease-out;
+        }
+        
+        .profile-tabs {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .profile-tabs:hover {
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .profile-tabs .nav-link {
+            border: none;
+            padding: 15px 20px;
+            color: #6c757d;
+            border-radius: 0;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-tabs .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,123,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .profile-tabs .nav-link:hover::before {
+            left: 100%;
+        }
+        
+        .profile-tabs .nav-link:hover {
+            background: #f8f9fa;
+            transform: translateX(5px);
+        }
+        
+        .profile-tabs .nav-link.active {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            border-radius: 0;
+            transform: translateX(5px);
+        }
+        
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-card:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .profile-card:hover {
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        
+        .progress-skill {
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-skill .progress-bar {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            transition: width 1s ease;
+        }
+        
+        .badge-skill {
+            background: linear-gradient(135deg, #e9f5ff 0%, #d0e7ff 100%);
+            color: #007bff;
+            padding: 8px 20px;
+            border-radius: 25px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500;
+            border: 1px solid rgba(0, 123, 255, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .badge-skill:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 5px 15px rgba(0, 123, 255, 0.2);
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+        }
+        
+        .badge-skill .remove {
+            margin-left: 10px;
+            cursor: pointer;
+            opacity: 0.7;
+            font-size: 1.2rem;
+            line-height: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .badge-skill:hover .remove {
+            opacity: 1;
+            color: white;
+        }
+        
+        .badge-skill .remove:hover {
+            transform: scale(1.3);
+        }
+        
+        .activity-timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .activity-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #007bff, #0056b3);
+        }
+        
+        .activity-item {
+            position: relative;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007bff;
+            transition: all 0.3s ease;
+        }
+        
+        .activity-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .activity-item::before {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #007bff;
+            border: 3px solid white;
+            box-shadow: 0 0 0 3px #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .activity-item:hover::before {
+            transform: scale(1.5);
+            box-shadow: 0 0 0 5px rgba(0,123,255,0.2);
+        }
+        
+        .resume-upload {
+            border: 2px dashed #dee2e6;
+            border-radius: 15px;
+            padding: 50px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resume-upload::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,123,255,0.1) 0%, rgba(0,91,187,0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .resume-upload:hover::before {
+            opacity: 1;
+        }
+        
+        .resume-upload:hover {
+            border-color: #007bff;
+            background: #e9f5ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .resume-upload.dragover {
+            border-color: #28a745;
+            background: #f0fff4;
+            transform: scale(1.02);
+        }
+        
+        .education-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #28a745;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .education-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-left-color: #007bff;
+        }
+        
+        .saved-job-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .saved-job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border-color: #007bff;
+        }
+        
+        .application-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .application-status:hover {
+            transform: scale(1.1);
+        }
+        
+        .status-review { 
+            background: #fff3cd; 
+            color: #856404; 
+        }
+        
+        .status-interview { 
+            background: #d1ecf1; 
+            color: #0c5460; 
+        }
+        
+        .status-offer { 
+            background: #d4edda; 
+            color: #155724; 
+        }
+        
+        .status-rejected { 
+            background: #f8d7da; 
+            color: #721c24; 
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #28a745;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(30px);
+        }
+        
+        .privacy-badge {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .privacy-badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+        }
+        
+        .action-btn {
+            padding: 6px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(10px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        .section-title {
+            color: #007bff;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(135deg, #0056b3 0%, #003d82 100%);
+            transition: width 0.5s ease;
+        }
+        
+        .section-title:hover::after {
+            width: 100%;
+        }
+        
+        .upload-progress {
+            height: 6px;
+            border-radius: 3px;
+            margin-top: 10px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+        
+        .upload-progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        
+        /* Table hover effects */
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: translateX(5px);
+        }
+        
+        /* Form input animations */
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .profile-header {
+                padding: 40px 0 20px;
+            }
+            
+            .profile-avatar {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .profile-tabs .nav-link {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .profile-card {
+                padding: 20px 15px;
+            }
+            
+            .activity-timeline {
+                padding-left: 20px;
+            }
+            
+            .activity-item::before {
+                left: -18px;
+                width: 10px;
+                height: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .profile-stats {
+                padding: 15px;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .badge-skill {
+                padding: 6px 15px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Unified Header -->
+    <div id="header-container"></div>
+
+    <!-- Profile Header -->
+    <section class="profile-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-2 text-center mb-4 mb-lg-0 animate-rotateIn">
+                    <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" 
+                         alt="Profile" class="profile-avatar">
+                    <div class="mt-3">
+                        <button class="btn btn-sm btn-outline-primary" id="changePhotoBtn">
+                            <i class="fas fa-camera me-1"></i> Change Photo
+                        </button>
+                        <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+                <div class="col-lg-5 animate-slideInLeft">
+                    <h1 class="fw-bold mb-1">Mugahid Salih</h1>
+                    <p class="text-muted mb-2">
+                        <i class="fas fa-map-marker-alt me-1"></i> San Francisco, CA
+                    </p>
+                    <p class="mb-3">Senior Software Engineer with 8+ years of experience in full-stack development.</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="badge bg-primary animate-pulse">Open to work</span>
+                        <span class="badge bg-success">Profile 85% complete</span>
+                        <span class="badge bg-info">Premium Member</span>
+                    </div>
+                </div>
+                <div class="col-lg-5 animate-slideInRight">
+                    <div class="profile-stats">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <div class="h4 fw-bold text-primary">12</div>
+                                <small class="text-muted">Applications</small>
+                            </div>
+                            <div class="col-4">
+                                <div class="h4 fw-bold text-primary">8</div>
+                                <small class="text-muted">Interviews</small>
+                            </div>
+                            <div class="col-4">
+                                <div class="h4 fw-bold text-primary">24</div>
+                                <small class="text-muted">Saved Jobs</small>
+                            </div>
+                        </div>
+                        <div class="progress mt-3">
+                            <div class="progress-bar" role="progressbar" style="width: 85%"></div>
+                        </div>
+                        <small class="text-muted d-block mt-2">Profile Strength: 85%</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Tabs Navigation -->
+                <div class="col-lg-3">
+                    <div class="profile-tabs mb-4">
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-bs-toggle="tab" href="#personal">
+                                    <i class="fas fa-user me-2"></i> Personal Info
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#experience">
+                                    <i class="fas fa-briefcase me-2"></i> Experience
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#education">
+                                    <i class="fas fa-graduation-cap me-2"></i> Education
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#skills">
+                                    <i class="fas fa-star me-2"></i> Skills
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#applications">
+                                    <i class="fas fa-paper-plane me-2"></i> Applications
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#saved">
+                                    <i class="fas fa-heart me-2"></i> Saved Jobs
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-bs-toggle="tab" href="#settings">
+                                    <i class="fas fa-cog me-2"></i> Settings
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="profile-card animate-on-scroll">
+                        <h6 class="fw-bold mb-3">Quick Actions</h6>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-outline-primary btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addResumeModal">
+                                <i class="fas fa-upload me-1"></i> Upload Resume
+                            </button>
+                            <button class="btn btn-outline-success btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addExperienceModal">
+                                <i class="fas fa-plus me-1"></i> Add Experience
+                            </button>
+                            <button class="btn btn-outline-info btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addEducationModal">
+                                <i class="fas fa-graduation-cap me-1"></i> Add Education
+                            </button>
+                            <button class="btn btn-outline-warning btn-sm action-btn" id="downloadProfileBtn">
+                                <i class="fas fa-download me-1"></i> Download Profile
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Profile Completion -->
+                    <div class="profile-card animate-on-scroll" style="animation-delay: 0.2s">
+                        <h6 class="fw-bold mb-3">Profile Completion</h6>
+                        <div class="progress mb-3" style="height: 10px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                        </div>
+                        <small class="text-muted">Complete your profile to increase visibility by 40%</small>
+                        <ul class="list-unstyled mt-3">
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Personal Info</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Experience</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-check text-success me-2"></i>
+                                <small>Skills</small>
+                            </li>
+                            <li class="mb-2">
+                                <i class="fas fa-times text-danger me-2"></i>
+                                <small>Add Resume</small>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Tab Content -->
+                <div class="col-lg-9">
+                    <div class="tab-content">
+                        <!-- Personal Info Tab -->
+                        <div class="tab-pane fade show active" id="personal">
+                            <div class="profile-card animate-on-scroll">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="section-title">Personal Information</h4>
+                                    <button class="btn btn-outline-primary btn-sm action-btn" id="editPersonalBtn">Edit</button>
+                                </div>
+                                
+                                <form id="personalForm">
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Full Name *</label>
+                                            <input type="text" class="form-control" id="fullName" value="Mugahid Salih" required disabled>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Email Address *</label>
+                                            <input type="email" class="form-control" id="email" value="wadsalih2003@gmail.com" required disabled>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Phone Number *</label>
+                                            <input type="tel" class="form-control" id="phone" value="+249 9121234567" required disabled>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Location *</label>
+                                            <input type="text" class="form-control" id="location" value="San Francisco, CA" required disabled>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label class="form-label">Professional Summary *</label>
+                                        <textarea class="form-control" id="summary" rows="4" required disabled>Experienced Senior Software Engineer with 8+ years in full-stack development. Specialized in JavaScript, React, Node.js, and cloud technologies. Passionate about creating scalable web applications and mentoring junior developers.</textarea>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label class="form-label">Current Employment Status</label>
+                                        <select class="form-select" id="employmentStatus" disabled>
+                                            <option selected>Open to work</option>
+                                            <option>Employed, open to opportunities</option>
+                                            <option>Not looking</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="d-flex gap-2">
+                                        <button type="submit" class="btn btn-primary action-btn" id="savePersonalBtn" style="display: none;">Save Changes</button>
+                                        <button type="button" class="btn btn-outline-secondary action-btn" id="cancelPersonalBtn" style="display: none;">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <!-- Resume Upload Section -->
+                            <div class="profile-card animate-on-scroll" style="animation-delay: 0.2s">
+                                <h4 class="section-title mb-4">Resume & Documents</h4>
+                                
+                                <div class="resume-upload" id="resumeDropArea">
+                                    <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3 animate-float"></i>
+                                    <h5>Upload Your Resume</h5>
+                                    <p class="text-muted mb-3">Drag & drop your resume here or click to browse</p>
+                                    <p class="small text-muted mb-4">Supports PDF, DOC, DOCX (Max 5MB)</p>
+                                    <input type="file" id="resumeUpload" accept=".pdf,.doc,.docx" style="display: none;">
+                                    <button class="btn btn-primary action-btn" id="browseResumeBtn">Browse Files</button>
+                                    <div class="upload-progress mt-3" id="uploadProgress" style="display: none;">
+                                        <div class="upload-progress-bar" id="uploadProgressBar"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mt-4" id="resumeList">
+                                    <h6 class="fw-bold mb-3">Uploaded Documents</h6>
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle me-2"></i>
+                                        No resume uploaded yet. Upload your resume to increase your chances.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Experience Tab -->
+                        <div class="tab-pane fade" id="experience">
+                            <div class="profile-card animate-on-scroll">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="section-title">Work Experience</h4>
+                                    <button class="btn btn-primary btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addExperienceModal">
+                                        <i class="fas fa-plus me-1"></i> Add Experience
+                                    </button>
+                                </div>
+                                
+                                <!-- Experience Item 1 -->
+                                <div class="border-start border-3 border-primary ps-4 mb-4 animate-on-scroll">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="fw-bold">Senior Software Engineer</h5>
+                                            <p class="text-primary mb-1">Tech Solutions Inc.</p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-1"></i> Jan 2020 - Present · 4 years
+                                                <i class="fas fa-map-marker-alt ms-3 me-1"></i> San Francisco, CA
+                                            </small>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-secondary action-btn">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn">Delete</button>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3">Lead development of enterprise web applications using React and Node.js. Mentored junior developers and implemented CI/CD pipelines.</p>
+                                    <div>
+                                        <span class="badge-skill">React</span>
+                                        <span class="badge-skill">Node.js</span>
+                                        <span class="badge-skill">AWS</span>
+                                        <span class="badge-skill">TypeScript</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Experience Item 2 -->
+                                <div class="border-start border-3 border-secondary ps-4 animate-on-scroll" style="animation-delay: 0.2s">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="fw-bold">Software Developer</h5>
+                                            <p class="text-primary mb-1">Innovate Tech</p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-1"></i> Jun 2016 - Dec 2019 · 3.5 years
+                                                <i class="fas fa-map-marker-alt ms-3 me-1"></i> New York, NY
+                                            </small>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-secondary action-btn">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn">Delete</button>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3">Developed and maintained multiple web applications. Collaborated with cross-functional teams to deliver high-quality software solutions.</p>
+                                    <div>
+                                        <span class="badge-skill">JavaScript</span>
+                                        <span class="badge-skill">Python</span>
+                                        <span class="badge-skill">Docker</span>
+                                        <span class="badge-skill">MongoDB</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Education Tab -->
+                        <div class="tab-pane fade" id="education">
+                            <div class="profile-card animate-on-scroll">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="section-title">Education</h4>
+                                    <button class="btn btn-primary btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addEducationModal">
+                                        <i class="fas fa-plus me-1"></i> Add Education
+                                    </button>
+                                </div>
+                                
+                                <!-- Education Item 1 -->
+                                <div class="education-card animate-on-scroll">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Master of Science in Computer Science</h5>
+                                            <p class="text-primary mb-2">Stanford University</p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-1"></i> 2014 - 2016
+                                                <i class="fas fa-graduation-cap ms-3 me-1"></i> GPA: 3.8/4.0
+                                            </small>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-secondary action-btn">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn">Delete</button>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-2">Specialized in Artificial Intelligence and Machine Learning. Thesis on "Neural Networks for Image Recognition".</p>
+                                    <div class="mt-2">
+                                        <span class="badge-skill">Machine Learning</span>
+                                        <span class="badge-skill">AI</span>
+                                        <span class="badge-skill">Data Science</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Education Item 2 -->
+                                <div class="education-card animate-on-scroll" style="animation-delay: 0.2s">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h5 class="fw-bold mb-1">Bachelor of Science in Software Engineering</h5>
+                                            <p class="text-primary mb-2">University of California, Berkeley</p>
+                                            <small class="text-muted">
+                                                <i class="fas fa-calendar me-1"></i> 2010 - 2014
+                                                <i class="fas fa-graduation-cap ms-3 me-1"></i> GPA: 3.6/4.0
+                                            </small>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-outline-secondary action-btn">Edit</button>
+                                            <button class="btn btn-sm btn-outline-danger action-btn">Delete</button>
+                                        </div>
+                                    </div>
+                                    <p class="mt-3 mb-2">Focus on software development methodologies and systems design. President of Computer Science Club.</p>
+                                    <div class="mt-2">
+                                        <span class="badge-skill">Software Engineering</span>
+                                        <span class="badge-skill">Database Systems</span>
+                                        <span class="badge-skill">Web Development</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Skills Tab -->
+                        <div class="tab-pane fade" id="skills">
+                            <div class="profile-card animate-on-scroll">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="section-title">Skills & Expertise</h4>
+                                    <button class="btn btn-primary btn-sm action-btn" data-bs-toggle="modal" data-bs-target="#addSkillModal">
+                                        <i class="fas fa-plus me-1"></i> Add Skill
+                                    </button>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Primary Skills</label>
+                                    <div id="skillsContainer">
+                                        <span class="badge-skill">
+                                            JavaScript <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            React <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            Node.js <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            TypeScript <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            AWS <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            Docker <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            PostgreSQL <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            GraphQL <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            Python <span class="remove">&times;</span>
+                                        </span>
+                                        <span class="badge-skill">
+                                            MongoDB <span class="remove">&times;</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Skill Proficiency</label>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>JavaScript</span>
+                                            <span class="badge bg-success">Expert</span>
+                                        </div>
+                                        <div class="progress progress-skill">
+                                            <div class="progress-bar" style="width: 95%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>React</span>
+                                            <span class="badge bg-success">Expert</span>
+                                        </div>
+                                        <div class="progress progress-skill">
+                                            <div class="progress-bar" style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>Node.js</span>
+                                            <span class="badge bg-primary">Advanced</span>
+                                        </div>
+                                        <div class="progress progress-skill">
+                                            <div class="progress-bar" style="width: 85%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between mb-1">
+                                            <span>AWS</span>
+                                            <span class="badge bg-info">Intermediate</span>
+                                        </div>
+                                        <div class="progress progress-skill">
+                                            <div class="progress-bar" style="width: 75%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Languages</label>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-primary text-white">English (Fluent)</span>
+                                        <span class="badge bg-secondary text-white">Arabic (Native)</span>
+                                        <span class="badge bg-info text-white">Spanish (Basic)</span>
+                                    </div>
+                                </div>
+                                
+                                <button class="btn btn-primary action-btn" id="updateSkillsBtn">Update Skills</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Applications Tab -->
+                        <div class="tab-pane fade" id="applications">
+                            <div class="profile-card animate-on-scroll">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="section-title">Job Applications</h4>
+                                    <div class="d-flex gap-2">
+                                        <select class="form-select form-select-sm w-auto" id="applicationFilter">
+                                            <option value="all">All Applications</option>
+                                            <option value="review">Under Review</option>
+                                            <option value="interview">Interview</option>
+                                            <option value="offer">Offers</option>
+                                            <option value="rejected">Rejected</option>
+                                        </select>
+                                        <button class="btn btn-outline-primary btn-sm action-btn" id="refreshApplications">
+                                            <i class="fas fa-sync-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Position</th>
+                                                <th>Company</th>
+                                                <th>Applied</th>
+                                                <th>Status</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="applicationsTable">
+                                            <!-- Applications will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <div class="text-center mt-4" id="noApplications" style="display: none;">
+                                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                    <h5>No Applications Yet</h5>
+                                    <p class="text-muted">Start applying to jobs to see your applications here.</p>
+                                    <a href="jobs.html" class="btn btn-primary action-btn">Browse Jobs</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Saved Jobs Tab -->
+                        <div class="tab-pane fade" id="saved">
+                            <div class="profile-card animate-on-scroll">
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <h4 class="section-title">Saved Jobs</h4>
+                                    <div class="d-flex gap-2">
+                                        <select class="form-select form-select-sm w-auto" id="savedJobsFilter">
+                                            <option value="all">All Jobs</option>
+                                            <option value="recent">Recently Saved</option>
+                                            <option value="remote">Remote Only</option>
+                                            <option value="fulltime">Full-time</option>
+                                        </select>
+                                        <button class="btn btn-outline-danger btn-sm action-btn" id="clearSavedJobs">
+                                            <i class="fas fa-trash-alt"></i> Clear All
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div id="savedJobsList">
+                                    <!-- Saved jobs will be loaded here -->
+                                </div>
+                                
+                                <div class="text-center mt-4" id="noSavedJobs">
+                                    <i class="fas fa-heart fa-3x text-muted mb-3"></i>
+                                    <h5>No Saved Jobs</h5>
+                                    <p class="text-muted">Save jobs you're interested in to find them easily later.</p>
+                                    <a href="jobs.html" class="btn btn-primary action-btn">Browse Jobs</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Settings Tab -->
+                        <div class="tab-pane fade" id="settings">
+                            <div class="profile-card animate-on-scroll">
+                                <h4 class="section-title mb-4">Account Settings</h4>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-4">
+                                            <h6 class="fw-bold mb-3">Privacy Settings</h6>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="profileVisibility" checked>
+                                                <label class="form-check-label" for="profileVisibility">
+                                                    Make profile visible to employers
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="resumeVisibility" checked>
+                                                <label class="form-check-label" for="resumeVisibility">
+                                                    Allow employers to view resume
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-switch mb-3">
+                                                <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                                <label class="form-check-label" for="emailNotifications">
+                                                    Email notifications for new jobs
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" id="smsNotifications">
+                                                <label class="form-check-label" for="smsNotifications">
+                                                    SMS notifications
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-4">
+                                            <h6 class="fw-bold mb-3">Security</h6>
+                                            <div class="mb-3">
+                                                <label class="form-label">Change Password</label>
+                                                <input type="password" class="form-control" id="currentPassword" placeholder="Current password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="password" class="form-control" id="newPassword" placeholder="New password">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm new password">
+                                            </div>
+                                            <button class="btn btn-outline-primary btn-sm action-btn" id="changePasswordBtn">Update Password</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-4">
+                                
+                                <div class="mb-4">
+                                    <h6 class="fw-bold mb-3">Notification Preferences</h6>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyApplications" checked>
+                                                <label class="form-check-label" for="notifyApplications">
+                                                    Application updates
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyMessages" checked>
+                                                <label class="form-check-label" for="notifyMessages">
+                                                    New messages
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyJobMatches" checked>
+                                                <label class="form-check-label" for="notifyJobMatches">
+                                                    Job matches
+                                                </label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="notifyPromotions">
+                                                <label class="form-check-label" for="notifyPromotions">
+                                                    Promotions & offers
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr class="my-4">
+                                
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary action-btn" id="saveSettingsBtn">Save Settings</button>
+                                    <button class="btn btn-outline-danger action-btn" id="deleteAccountBtn">Delete Account</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer with Personal Details -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <h5 class="fw-bold mb-3">JobPortal</h5>
+                    <p>Your career journey starts here.</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/mjahdsalh.adm" class="text-white me-3" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.instagram.com/dmmjhdslh/" class="text-white me-3" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="mailto:wadsalih2003@gmail.com" class="text-white me-3" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com" class="text-white" target="_blank" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <div class="mt-3">
+                        <p class="mb-1 small">Contact Developer:</p>
+                        <p class="mb-1 small"><i class="fas fa-user me-2"></i> Mugahid Salih</p>
+                        <p class="mb-1 small"><i class="fas fa-envelope me-2"></i> wadsalih2003@gmail.com</p>
+                        <p class="mb-0 small"><i class="fas fa-phone me-2"></i> +249 912 123 4567</p>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Profile</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="profile.html" class="text-white-50 text-decoration-none">Edit Profile</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Privacy Settings</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Account Security</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-6 mb-4">
+                    <h6 class="fw-bold mb-3">Support</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white-50 text-decoration-none">Help Center</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">Contact Us</a></li>
+                        <li><a href="#" class="text-white-50 text-decoration-none">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <h6 class="fw-bold mb-3">Resume Tips</h6>
+                    <p class="text-white-50 small">Keep your resume updated and tailored to each application for better results.</p>
+                    <div class="mt-4">
+                        <h6 class="fw-bold mb-3">Developer Info</h6>
+                        <p class="text-white-50 small mb-1">
+                            This JobPortal website was developed by <strong>Mugahid Salih</strong>, 
+                            a passionate web developer specializing in creating user-friendly job platforms.
+                        </p>
+                        <p class="text-white-50 small mb-0">
+                            <i class="fas fa-code me-1"></i> Built with HTML5, CSS3, Bootstrap 5 & JavaScript
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <hr class="bg-white-50">
+            <div class="text-center pt-3">
+                <p class="mb-0 text-white-50">&copy; 2024 JobPortal. All rights reserved. | Developed by Mugahid Salih</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add Experience Modal -->
+    <div class="modal fade" id="addExperienceModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Work Experience</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="experienceForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Job Title *</label>
+                                <input type="text" class="form-control" placeholder="e.g., Senior Developer" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Company *</label>
+                                <input type="text" class="form-control" placeholder="Company name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Start Date *</label>
+                                <input type="month" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">End Date</label>
+                                <input type="month" class="form-control" id="endDate">
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" id="currentJob">
+                                    <label class="form-check-label" for="currentJob">
+                                        I currently work here
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-control" placeholder="e.g., San Francisco, CA">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description *</label>
+                            <textarea class="form-control" rows="4" placeholder="Describe your responsibilities and achievements" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Skills Used</label>
+                            <input type="text" class="form-control" placeholder="Add skills separated by commas (e.g., React, Node.js, AWS)">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveExperienceBtn">Save Experience</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Education Modal -->
+    <div class="modal fade" id="addEducationModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Education</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="educationForm">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Degree *</label>
+                                <input type="text" class="form-control" placeholder="e.g., Bachelor of Science in Computer Science" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Institution *</label>
+                                <input type="text" class="form-control" placeholder="University name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Field of Study</label>
+                                <input type="text" class="form-control" placeholder="e.g., Computer Science">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">GPA</label>
+                                <input type="text" class="form-control" placeholder="e.g., 3.8/4.0">
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Start Year *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select year</option>
+                                    <!-- Years will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">End Year *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select year</option>
+                                    <!-- Years will be populated by JavaScript -->
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="3" placeholder="Describe your studies, achievements, or projects"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="saveEducationBtn">Save Education</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Skill Modal -->
+    <div class="modal fade" id="addSkillModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add New Skill</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="skillForm">
+                        <div class="mb-3">
+                            <label class="form-label">Skill Name *</label>
+                            <input type="text" class="form-control" id="newSkillInput" placeholder="e.g., React, Python, AWS" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Proficiency Level</label>
+                            <select class="form-select" id="skillLevel">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                                <option value="expert" selected>Expert</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="addSkillBtn">Add Skill</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Resume Modal -->
+    <div class="modal fade" id="addResumeModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Resume</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+                        <h5>Upload Your Resume</h5>
+                        <p class="text-muted">Upload your resume in PDF, DOC, or DOCX format</p>
+                    </div>
+                    
+                    <div class="resume-upload mb-3" id="modalResumeDrop">
+                        <i class="fas fa-cloud-upload-alt fa-2x text-primary mb-3"></i>
+                        <p class="mb-2">Drag & drop your file here</p>
+                        <p class="small text-muted mb-3">or click to browse</p>
+                        <input type="file" id="modalResumeUpload" accept=".pdf,.doc,.docx" style="display: none;">
+                        <button class="btn btn-outline-primary btn-sm" id="modalBrowseBtn">Browse Files</button>
+                    </div>
+                    
+                    <div class="upload-progress" id="modalUploadProgress" style="display: none;">
+                        <div class="upload-progress-bar" id="modalProgressBar"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="uploadResumeBtn" disabled>Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Application data
+        const applications = [
+            {
+                id: 1,
+                position: "Senior Frontend Developer",
+                company: "Google",
+                applied: "2 days ago",
+                status: "review",
+                salary: "$180k-$250k",
+                location: "Remote"
+            },
+            {
+                id: 2,
+                position: "Full Stack Engineer",
+                company: "Microsoft",
+                applied: "1 week ago",
+                status: "interview",
+                salary: "$140k-$190k",
+                location: "Redmond, WA"
+            },
+            {
+                id: 3,
+                position: "Cloud Architect",
+                company: "Amazon",
+                applied: "3 weeks ago",
+                status: "offer",
+                salary: "$200k-$300k",
+                location: "Seattle, WA"
+            },
+            {
+                id: 4,
+                position: "UX Researcher",
+                company: "Meta",
+                applied: "1 month ago",
+                status: "rejected",
+                salary: "$120k-$160k",
+                location: "Menlo Park, CA"
+            },
+            {
+                id: 5,
+                position: "Product Manager",
+                company: "Apple",
+                applied: "5 days ago",
+                status: "review",
+                salary: "$150k-$200k",
+                location: "Cupertino, CA"
+            }
+        ];
+
+        // Saved jobs data
+        const savedJobs = [
+            {
+                id: 1,
+                position: "Senior Frontend Developer",
+                company: "Google",
+                salary: "$180k-$250k",
+                location: "Remote",
+                type: "Full-time",
+                saved: "2 days ago"
+            },
+            {
+                id: 2,
+                position: "UX/UI Designer",
+                company: "Creative Minds Agency",
+                salary: "$90k-$110k",
+                location: "New York, NY",
+                type: "Full-time",
+                saved: "1 week ago"
+            },
+            {
+                id: 3,
+                position: "Data Scientist",
+                company: "Analytics Pro",
+                salary: "$140k-$180k",
+                location: "San Francisco, CA",
+                type: "Contract",
+                saved: "3 days ago"
+            },
+            {
+                id: 4,
+                position: "DevOps Engineer",
+                company: "Cloud Systems",
+                salary: "$130k-$160k",
+                location: "Remote",
+                type: "Full-time",
+                saved: "1 day ago"
+            }
+        ];
+
+        // Load unified header
+        fetch('header.html')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header-container').innerHTML = data;
+                initializeHeaderScripts();
+            })
+            .catch(error => {
+                console.error('Error loading header:', error);
+                document.getElementById('header-container').innerHTML = '<p>Error loading header</p>';
+            });
+
+        function initializeHeaderScripts() {
+            // This function will be called after header is loaded
+            console.log('Header loaded successfully');
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize applications
+            loadApplications();
+            
+            // Initialize saved jobs
+            loadSavedJobs();
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initialize tabs
+            initTabs();
+            
+            // Initialize modals
+            initModals();
+            
+            // Load saved data from localStorage
+            loadSavedData();
+            
+            // Scroll animation for elements
+            const animateElements = document.querySelectorAll('.animate-on-scroll');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            animateElements.forEach(element => {
+                observer.observe(element);
+            });
+        });
+
+        // Load applications
+        function loadApplications(filter = 'all') {
+            const tableBody = document.getElementById('applicationsTable');
+            const noApplications = document.getElementById('noApplications');
+            
+            if (!applications.length) {
+                tableBody.style.display = 'none';
+                noApplications.style.display = 'block';
+                return;
+            }
+            
+            tableBody.innerHTML = '';
+            noApplications.style.display = 'none';
+            
+            const filteredApplications = filter === 'all' 
+                ? applications 
+                : applications.filter(app => app.status === filter);
+            
+            if (filteredApplications.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-4">
+                            <i class="fas fa-search fa-2x text-muted mb-2"></i>
+                            <p class="text-muted mb-0">No applications found for this filter.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            filteredApplications.forEach(app => {
+                const statusClass = {
+                    'review': 'status-review',
+                    'interview': 'status-interview',
+                    'offer': 'status-offer',
+                    'rejected': 'status-rejected'
+                }[app.status];
+                
+                const statusText = {
+                    'review': 'Under Review',
+                    'interview': 'Interview',
+                    'offer': 'Offer Received',
+                    'rejected': 'Rejected'
+                }[app.status];
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="fw-bold">${app.position}</div>
+                        <small class="text-muted">${app.salary}</small>
+                    </td>
+                    <td>${app.company}</td>
+                    <td>${app.applied}</td>
+                    <td><span class="application-status ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary view-application action-btn" data-id="${app.id}">
+                            <i class="fas fa-eye me-1"></i> View
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger delete-application action-btn" data-id="${app.id}">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Load saved jobs
+        function loadSavedJobs(filter = 'all') {
+            const savedJobsList = document.getElementById('savedJobsList');
+            const noSavedJobs = document.getElementById('noSavedJobs');
+            
+            if (!savedJobs.length) {
+                savedJobsList.style.display = 'none';
+                noSavedJobs.style.display = 'block';
+                return;
+            }
+            
+            savedJobsList.innerHTML = '';
+            noSavedJobs.style.display = 'none';
+            
+            const filteredJobs = filter === 'all' 
+                ? savedJobs 
+                : savedJobs.filter(job => {
+                    if (filter === 'recent') return job.saved.includes('day');
+                    if (filter === 'remote') return job.location === 'Remote';
+                    if (filter === 'fulltime') return job.type === 'Full-time';
+                    return true;
+                });
+            
+            if (filteredJobs.length === 0) {
+                savedJobsList.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="fas fa-search fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No saved jobs found for this filter.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredJobs.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.className = 'saved-job-card animate-on-scroll';
+                jobCard.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            <h6 class="fw-bold mb-1">${job.position}</h6>
+                            <p class="text-primary mb-2">${job.company}</p>
+                            <div class="d-flex flex-wrap gap-2">
+                                <small class="text-muted"><i class="fas fa-money-bill-wave me-1"></i>${job.salary}</small>
+                                <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>${job.location}</small>
+                                <small class="text-muted"><i class="fas fa-briefcase me-1"></i>${job.type}</small>
+                            </div>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted d-block mb-2">Saved ${job.saved}</small>
+                            <div class="d-flex gap-1">
+                                <button class="btn btn-sm btn-outline-primary apply-job action-btn" data-id="${job.id}">
+                                    <i class="fas fa-paper-plane me-1"></i> Apply
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger unsave-job action-btn" data-id="${job.id}">
+                                    <i class="fas fa-heart-broken"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                savedJobsList.appendChild(jobCard);
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Application filter
+            document.getElementById('applicationFilter').addEventListener('change', function(e) {
+                loadApplications(e.target.value);
+            });
+            
+            // Refresh applications
+            document.getElementById('refreshApplications').addEventListener('click', function() {
+                this.classList.add('fa-spin');
+                setTimeout(() => {
+                    this.classList.remove('fa-spin');
+                    loadApplications(document.getElementById('applicationFilter').value);
+                }, 500);
+            });
+            
+            // View application
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.view-application')) {
+                    const btn = e.target.closest('.view-application');
+                    const appId = parseInt(btn.dataset.id);
+                    const app = applications.find(a => a.id === appId);
+                    
+                    if (app) {
+                        alert(`Viewing application for:\n\nPosition: ${app.position}\nCompany: ${app.company}\nStatus: ${app.status}\nApplied: ${app.applied}\nSalary: ${app.salary}\nLocation: ${app.location}`);
+                    }
+                }
+                
+                // Delete application
+                if (e.target.closest('.delete-application')) {
+                    const btn = e.target.closest('.delete-application');
+                    const appId = parseInt(btn.dataset.id);
+                    const index = applications.findIndex(a => a.id === appId);
+                    
+                    if (index !== -1 && confirm('Are you sure you want to delete this application?')) {
+                        applications.splice(index, 1);
+                        loadApplications(document.getElementById('applicationFilter').value);
+                    }
+                }
+                
+                // Apply to saved job
+                if (e.target.closest('.apply-job')) {
+                    const btn = e.target.closest('.apply-job');
+                    const jobId = parseInt(btn.dataset.id);
+                    const job = savedJobs.find(j => j.id === jobId);
+                    
+                    if (job) {
+                        if (confirm(`Apply for "${job.position}" at ${job.company}?`)) {
+                            alert(`Successfully applied for ${job.position}! Good luck!`);
+                        }
+                    }
+                }
+                
+                // Unsave job
+                if (e.target.closest('.unsave-job')) {
+                    const btn = e.target.closest('.unsave-job');
+                    const jobId = parseInt(btn.dataset.id);
+                    const index = savedJobs.findIndex(j => j.id === jobId);
+                    
+                    if (index !== -1 && confirm('Remove this job from saved jobs?')) {
+                        savedJobs.splice(index, 1);
+                        loadSavedJobs(document.getElementById('savedJobsFilter').value);
+                    }
+                }
+                
+                // Remove skill
+                if (e.target.classList.contains('remove')) {
+                    e.target.parentElement.remove();
+                }
+            });
+            
+            // Saved jobs filter
+            document.getElementById('savedJobsFilter').addEventListener('change', function(e) {
+                loadSavedJobs(e.target.value);
+            });
+            
+            // Clear all saved jobs
+            document.getElementById('clearSavedJobs').addEventListener('click', function() {
+                if (savedJobs.length > 0 && confirm('Remove all saved jobs?')) {
+                    savedJobs.length = 0;
+                    loadSavedJobs();
+                }
+            });
+            
+            // Update skills
+            document.getElementById('updateSkillsBtn').addEventListener('click', function() {
+                const skills = Array.from(document.querySelectorAll('.badge-skill'))
+                    .map(skill => skill.textContent.replace('×', '').trim());
+                
+                // Simulate API call
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check me-1"></i> Skills Updated';
+                    this.disabled = false;
+                    
+                    setTimeout(() => {
+                        this.innerHTML = 'Update Skills';
+                    }, 2000);
+                    
+                    // Show success message
+                    showNotification('Skills updated successfully!', 'success');
+                }, 1500);
+            });
+            
+            // Save settings
+            document.getElementById('saveSettingsBtn').addEventListener('click', function() {
+                // Simulate saving settings
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check me-1"></i> Settings Saved';
+                    this.disabled = false;
+                    
+                    setTimeout(() => {
+                        this.innerHTML = 'Save Settings';
+                    }, 2000);
+                    
+                    // Show success message
+                    showNotification('Settings saved successfully!', 'success');
+                    
+                    // Save to localStorage
+                    saveSettings();
+                }, 1500);
+            });
+            
+            // Change password
+            document.getElementById('changePasswordBtn').addEventListener('click', function() {
+                const currentPass = document.getElementById('currentPassword').value;
+                const newPass = document.getElementById('newPassword').value;
+                const confirmPass = document.getElementById('confirmPassword').value;
+                
+                if (!currentPass || !newPass || !confirmPass) {
+                    showNotification('Please fill all password fields', 'error');
+                    return;
+                }
+                
+                if (newPass !== confirmPass) {
+                    showNotification('New passwords do not match', 'error');
+                    return;
+                }
+                
+                if (newPass.length < 6) {
+                    showNotification('Password must be at least 6 characters', 'error');
+                    return;
+                }
+                
+                // Simulate API call
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Updating...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check me-1"></i> Password Updated';
+                    this.disabled = false;
+                    
+                    setTimeout(() => {
+                        this.innerHTML = 'Update Password';
+                    }, 2000);
+                    
+                    // Clear fields
+                    document.getElementById('currentPassword').value = '';
+                    document.getElementById('newPassword').value = '';
+                    document.getElementById('confirmPassword').value = '';
+                    
+                    // Show success message
+                    showNotification('Password updated successfully!', 'success');
+                }, 1500);
+            });
+            
+            // Delete account
+            document.getElementById('deleteAccountBtn').addEventListener('click', function() {
+                if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                    if (confirm('This will permanently delete all your data. Type "DELETE" to confirm:')) {
+                        const input = prompt('Type DELETE to confirm:');
+                        if (input === 'DELETE') {
+                            // Simulate deletion
+                            this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Deleting...';
+                            this.disabled = true;
+                            
+                            setTimeout(() => {
+                                alert('Account deleted successfully. Redirecting to login page...');
+                                window.location.href = 'login.html';
+                            }, 2000);
+                        }
+                    }
+                }
+            });
+            
+            // Download profile
+            document.getElementById('downloadProfileBtn').addEventListener('click', function() {
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Preparing...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = '<i class="fas fa-check me-1"></i> Downloaded';
+                    this.disabled = false;
+                    
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-download me-1"></i> Download Profile';
+                    }, 2000);
+                    
+                    // Create and trigger download
+                    const profileData = {
+                        name: "Mugahid Salih",
+                        email: "wadsalih2003@gmail.com",
+                        phone: "+249 9121234567",
+                        location: "San Francisco, CA",
+                        summary: "Experienced Senior Software Engineer...",
+                        skills: ["JavaScript", "React", "Node.js", "TypeScript", "AWS"],
+                        experience: applications.length,
+                        savedJobs: savedJobs.length
+                    };
+                    
+                    const dataStr = JSON.stringify(profileData, null, 2);
+                    const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                    const url = URL.createObjectURL(dataBlob);
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = 'jobportal-profile.json';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    showNotification('Profile downloaded successfully!', 'success');
+                }, 1500);
+            });
+            
+            // Edit personal info
+            document.getElementById('editPersonalBtn').addEventListener('click', function() {
+                const inputs = document.querySelectorAll('#personalForm input, #personalForm textarea, #personalForm select');
+                inputs.forEach(input => input.disabled = false);
+                
+                document.getElementById('savePersonalBtn').style.display = 'inline-block';
+                document.getElementById('cancelPersonalBtn').style.display = 'inline-block';
+                this.style.display = 'none';
+            });
+            
+            // Cancel personal info edit
+            document.getElementById('cancelPersonalBtn').addEventListener('click', function() {
+                const inputs = document.querySelectorAll('#personalForm input, #personalForm textarea, #personalForm select');
+                inputs.forEach(input => input.disabled = true);
+                
+                document.getElementById('savePersonalBtn').style.display = 'none';
+                this.style.display = 'none';
+                document.getElementById('editPersonalBtn').style.display = 'inline-block';
+            });
+            
+            // Save personal info
+            document.getElementById('savePersonalBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                const form = document.getElementById('personalForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Simulate save
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = 'Save Changes';
+                    this.disabled = false;
+                    
+                    // Disable inputs
+                    const inputs = document.querySelectorAll('#personalForm input, #personalForm textarea, #personalForm select');
+                    inputs.forEach(input => input.disabled = true);
+                    
+                    // Hide save/cancel buttons
+                    this.style.display = 'none';
+                    document.getElementById('cancelPersonalBtn').style.display = 'none';
+                    document.getElementById('editPersonalBtn').style.display = 'inline-block';
+                    
+                    showNotification('Personal information updated successfully!', 'success');
+                }, 1500);
+            });
+            
+            // Change photo
+            document.getElementById('changePhotoBtn').addEventListener('click', function() {
+                document.getElementById('photoUpload').click();
+            });
+            
+            document.getElementById('photoUpload').addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    if (!file.type.startsWith('image/')) {
+                        showNotification('Please select an image file', 'error');
+                        return;
+                    }
+                    
+                    if (file.size > 5 * 1024 * 1024) {
+                        showNotification('Image must be less than 5MB', 'error');
+                        return;
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        document.querySelector('.profile-avatar').src = e.target.result;
+                        showNotification('Profile photo updated successfully!', 'success');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            // Resume upload
+            setupResumeUpload();
+        }
+
+        // Setup resume upload functionality
+        function setupResumeUpload() {
+            const dropArea = document.getElementById('resumeDropArea');
+            const fileInput = document.getElementById('resumeUpload');
+            const browseBtn = document.getElementById('browseResumeBtn');
+            const progressBar = document.getElementById('uploadProgressBar');
+            const progressContainer = document.getElementById('uploadProgress');
+            
+            // Modal elements
+            const modalDropArea = document.getElementById('modalResumeDrop');
+            const modalFileInput = document.getElementById('modalResumeUpload');
+            const modalBrowseBtn = document.getElementById('modalBrowseBtn');
+            const modalProgressBar = document.getElementById('modalProgressBar');
+            const modalProgressContainer = document.getElementById('modalUploadProgress');
+            const uploadResumeBtn = document.getElementById('uploadResumeBtn');
+            
+            let currentFile = null;
+            
+            // Prevent default drag behaviors
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                [dropArea, modalDropArea].forEach(area => {
+                    area.addEventListener(eventName, preventDefaults, false);
+                });
+            });
+            
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+            
+            // Highlight drop area
+            ['dragenter', 'dragover'].forEach(eventName => {
+                [dropArea, modalDropArea].forEach(area => {
+                    area.addEventListener(eventName, highlight, false);
+                });
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                [dropArea, modalDropArea].forEach(area => {
+                    area.addEventListener(eventName, unhighlight, false);
+                });
+            });
+            
+            function highlight(e) {
+                e.currentTarget.classList.add('dragover');
+            }
+            
+            function unhighlight(e) {
+                e.currentTarget.classList.remove('dragover');
+            }
+            
+            // Handle drop
+            [dropArea, modalDropArea].forEach(area => {
+                area.addEventListener('drop', handleDrop, false);
+            });
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles(files, e.currentTarget === modalDropArea);
+            }
+            
+            // Browse buttons
+            browseBtn.addEventListener('click', () => fileInput.click());
+            modalBrowseBtn.addEventListener('click', () => modalFileInput.click());
+            
+            // File inputs
+            fileInput.addEventListener('change', (e) => handleFiles(e.target.files, false));
+            modalFileInput.addEventListener('change', (e) => handleFiles(e.target.files, true));
+            
+            // Handle selected files
+            function handleFiles(files, isModal = false) {
+                if (files.length === 0) return;
+                
+                const file = files[0];
+                const validTypes = ['application/pdf', 'application/msword', 
+                                  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+                
+                if (!validTypes.includes(file.type)) {
+                    showNotification('Please select a PDF, DOC, or DOCX file', 'error');
+                    return;
+                }
+                
+                if (file.size > 5 * 1024 * 1024) {
+                    showNotification('File must be less than 5MB', 'error');
+                    return;
+                }
+                
+                currentFile = file;
+                
+                if (isModal) {
+                    uploadResumeBtn.disabled = false;
+                    showNotification(`Selected: ${file.name}`, 'info');
+                } else {
+                    uploadFile(file, false);
+                }
+            }
+            
+            // Upload resume from modal
+            uploadResumeBtn.addEventListener('click', () => {
+                if (currentFile) {
+                    uploadFile(currentFile, true);
+                }
+            });
+            
+            // Upload file
+            function uploadFile(file, fromModal = false) {
+                const progressBar = fromModal ? modalProgressBar : window.progressBar;
+                const progressContainer = fromModal ? modalProgressContainer : window.progressContainer;
+                
+                progressContainer.style.display = 'block';
+                progressBar.style.width = '0%';
+                
+                // Simulate upload progress
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 20;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        
+                        // Complete upload
+                        setTimeout(() => {
+                            progressContainer.style.display = 'none';
+                            
+                            if (fromModal) {
+                                // Close modal
+                                const modal = bootstrap.Modal.getInstance(document.getElementById('addResumeModal'));
+                                modal.hide();
+                                
+                                // Reset modal
+                                currentFile = null;
+                                uploadResumeBtn.disabled = true;
+                                modalFileInput.value = '';
+                            }
+                            
+                            // Add to resume list
+                            addResumeToList(file);
+                            
+                            showNotification('Resume uploaded successfully!', 'success');
+                        }, 500);
+                    }
+                    progressBar.style.width = `${progress}%`;
+                }, 100);
+            }
+            
+            // Add resume to list
+            function addResumeToList(file) {
+                const resumeList = document.getElementById('resumeList');
+                const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+                const uploadDate = new Date().toLocaleDateString();
+                
+                resumeList.innerHTML = `
+                    <h6 class="fw-bold mb-3">Uploaded Documents</h6>
+                    <div class="d-flex align-items-center justify-content-between p-3 bg-light rounded mb-3">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-file-pdf fa-2x text-danger me-3"></i>
+                            <div>
+                                <h6 class="mb-1">${file.name}</h6>
+                                <small class="text-muted">Uploaded on ${uploadDate} · ${fileSize} MB</small>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-outline-primary action-btn">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-success action-btn">
+                                <i class="fas fa-download"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger action-btn">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        Your resume has been uploaded. Your profile is now 100% complete!
+                    </div>
+                `;
+            }
+        }
+
+        // Initialize tabs
+        function initTabs() {
+            const triggerTabList = [].slice.call(document.querySelectorAll('.profile-tabs .nav-link'));
+            triggerTabList.forEach(function (triggerEl) {
+                const tabTrigger = new bootstrap.Tab(triggerEl);
+                
+                triggerEl.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    tabTrigger.show();
+                    
+                    // Save active tab to localStorage
+                    localStorage.setItem('activeProfileTab', this.getAttribute('href'));
+                });
+            });
+            
+            // Restore active tab
+            const activeTab = localStorage.getItem('activeProfileTab');
+            if (activeTab) {
+                const tabElement = document.querySelector(`.profile-tabs .nav-link[href="${activeTab}"]`);
+                if (tabElement) {
+                    new bootstrap.Tab(tabElement).show();
+                }
+            }
+        }
+
+        // Initialize modals
+        function initModals() {
+            // Add skill modal
+            document.getElementById('addSkillBtn').addEventListener('click', function() {
+                const skillInput = document.getElementById('newSkillInput');
+                const skillLevel = document.getElementById('skillLevel');
+                
+                if (skillInput.value.trim()) {
+                    const skillBadge = document.createElement('span');
+                    skillBadge.className = 'badge-skill';
+                    skillBadge.innerHTML = `${skillInput.value} <span class="remove">&times;</span>`;
+                    
+                    document.getElementById('skillsContainer').appendChild(skillBadge);
+                    
+                    // Reset form and close modal
+                    skillInput.value = '';
+                    skillLevel.value = 'expert';
+                    bootstrap.Modal.getInstance(document.getElementById('addSkillModal')).hide();
+                    
+                    showNotification('Skill added successfully!', 'success');
+                }
+            });
+            
+            // Add experience modal
+            document.getElementById('saveExperienceBtn').addEventListener('click', function() {
+                const form = document.getElementById('experienceForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Simulate save
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = 'Save Experience';
+                    this.disabled = false;
+                    bootstrap.Modal.getInstance(document.getElementById('addExperienceModal')).hide();
+                    form.reset();
+                    
+                    showNotification('Experience added successfully!', 'success');
+                }, 1500);
+            });
+            
+            // Add education modal
+            document.getElementById('saveEducationBtn').addEventListener('click', function() {
+                const form = document.getElementById('educationForm');
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Simulate save
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Saving...';
+                this.disabled = true;
+                
+                setTimeout(() => {
+                    this.innerHTML = 'Save Education';
+                    this.disabled = false;
+                    bootstrap.Modal.getInstance(document.getElementById('addEducationModal')).hide();
+                    form.reset();
+                    
+                    showNotification('Education added successfully!', 'success');
+                }, 1500);
+            });
+            
+            // Current job checkbox
+            document.getElementById('currentJob').addEventListener('change', function() {
+                const endDateInput = document.getElementById('endDate');
+                endDateInput.disabled = this.checked;
+                if (this.checked) {
+                    endDateInput.value = '';
+                }
+            });
+        }
+
+        // Load saved data from localStorage
+        function loadSavedData() {
+            const savedSkills = localStorage.getItem('profileSkills');
+            if (savedSkills) {
+                // Load saved skills if needed
+            }
+            
+            const savedSettings = localStorage.getItem('profileSettings');
+            if (savedSettings) {
+                const settings = JSON.parse(savedSettings);
+                // Apply saved settings
+                Object.keys(settings).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element) {
+                        if (element.type === 'checkbox') {
+                            element.checked = settings[key];
+                        } else {
+                            element.value = settings[key];
+                        }
+                    }
+                });
+            }
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            const settings = {
+                profileVisibility: document.getElementById('profileVisibility').checked,
+                resumeVisibility: document.getElementById('resumeVisibility').checked,
+                emailNotifications: document.getElementById('emailNotifications').checked,
+                smsNotifications: document.getElementById('smsNotifications').checked,
+                notifyApplications: document.getElementById('notifyApplications').checked,
+                notifyMessages: document.getElementById('notifyMessages').checked,
+                notifyJobMatches: document.getElementById('notifyJobMatches').checked,
+                notifyPromotions: document.getElementById('notifyPromotions').checked
+            };
+            
+            localStorage.setItem('profileSettings', JSON.stringify(settings));
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.global-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification
+            const notification = document.createElement('div');
+            notification.className = `global-notification alert alert-${type} alert-dismissible fade show`;
+            notification.style.cssText = `
+                position: fixed;
+                top: 120px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            `;
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
