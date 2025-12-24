@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Header - JobPortal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base header styles will be in header.css */
+    </style>
+</head>
+<body>
+    <!-- Smart Header -->
+    <header class="smart-header" data-header="smart">
+        <div class="container">
+            <div class="header-wrapper">
+                <!-- Logo & Brand -->
+                <div class="brand-section">
+                    <a href="home.html" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="logo-text">
+                            <span class="brand-name">JobPortal</span>
+                            <small class="brand-tagline">Find Your Dream Job</small>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Smart Search (Changes on scroll) -->
+                <div class="smart-search" data-search="smart">
+                    <div class="search-expanded">
+                        <div class="search-fields">
+                            <div class="search-group">
+                                <i class="fas fa-search search-icon"></i>
+                                <input type="text" class="search-input" id="jobKeyword" placeholder="Job title or keyword">
+                            </div>
+                            <div class="search-group">
+                                <i class="fas fa-map-marker-alt search-icon"></i>
+                                <input type="text" class="search-input" id="jobLocation" placeholder="City, state, or remote">
+                            </div>
+                            <button class="btn btn-primary search-btn" id="mainSearchBtn">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
+                    </div>
+                    <div class="search-collapsed">
+                        <button class="search-trigger" id="searchTrigger">
+                            <i class="fas fa-search"></i>
+                            <span>Search jobs...</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <a href="jobs.html" class="btn btn-primary post-job-btn">
+                        <i class="fas fa-plus"></i> Post a Job
+                    </a>
+                    <div class="user-profile-dropdown">
+                        <a href="profile.html" class="user-profile" id="userProfile">
+                            <div class="notification-badge">3</div>
+                            <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" 
+                                 alt="User" class="user-avatar">
+                            <span class="user-name">Mugahid</span>
+                        </a>
+                        <div class="dropdown-menu user-dropdown-menu">
+                            <div class="dropdown-header">
+                                <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" 
+                                     alt="User" class="dropdown-avatar">
+                                <div class="user-info">
+                                    <strong>Mugahid Salih</strong>
+                                    <small>wadsalih2003@gmail.com</small>
+                                </div>
+                            </div>
+                            <a class="dropdown-item" href="profile.html">
+                                <i class="fas fa-user me-2"></i> My Profile
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-briefcase me-2"></i> My Applications
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-heart me-2"></i> Saved Jobs
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-cog me-2"></i> Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item logout-btn" href="login.html">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <nav class="category-nav">
+            <div class="container">
+                <ul>
+                    <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="jobs.html"><i class="fas fa-search"></i> Find Jobs</a></li>
+                    <li><a href="employers.html"><i class="fas fa-briefcase"></i> For Employers</a></li>
+                    <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                    <li class="more">
+                        <a href="#"><i class="fas fa-ellipsis-h"></i> More</a>
+                        <div class="dropdown more-dropdown">
+                            <a class="dropdown-item" href="profile.html">
+                                <i class="fas fa-user me-2"></i> Profile
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-bell me-2"></i> Notifications
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-question-circle me-2"></i> Help
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <i class="fas fa-envelope me-2"></i> Contact
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <div class="user-info">
+                    <img src="https://media.licdn.com/dms/image/v2/D5603AQGDVIHbfvnr4Q/profile-displayphoto-shrink_800_800/B56ZY0YP8KGsAc-/0/1744635495417?e=1767830400&v=beta&t=C1KMwTE_uUwDvlKYHNtVAouRb62576hAQQ1GaWY31pk" 
+                         alt="User" class="mobile-user-avatar">
+                    <div>
+                        <strong>Mugahid Salih</strong>
+                        <small>Senior Software Engineer</small>
+                    </div>
+                </div>
+                <button class="close-menu-btn" id="closeMenuBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-search">
+                <div class="search-group">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search jobs...">
+                </div>
+            </div>
+            
+            <nav class="mobile-nav">
+                <a href="home.html" class="mobile-nav-item active">
+                    <i class="fas fa-home"></i> Home
+                </a>
+                <a href="jobs.html" class="mobile-nav-item">
+                    <i class="fas fa-search"></i> Find Jobs
+                </a>
+                <a href="employers.html" class="mobile-nav-item">
+                    <i class="fas fa-briefcase"></i> For Employers
+                </a>
+                <a href="about.html" class="mobile-nav-item">
+                    <i class="fas fa-info-circle"></i> About
+                </a>
+                <a href="profile.html" class="mobile-nav-item">
+                    <i class="fas fa-user"></i> Profile
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-heart"></i> Saved Jobs
+                </a>
+                <a href="#" class="mobile-nav-item">
+                    <i class="fas fa-bell"></i> Notifications
+                    <span class="badge">5</span>
+                </a>
+            </nav>
+            
+            <div class="mobile-menu-footer">
+                <a href="#" class="btn btn-outline-primary w-100 mb-2">
+                    <i class="fas fa-plus"></i> Post a Job
+                </a>
+                <a href="login.html" class="btn btn-outline-danger w-100">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Search Modal for Mobile -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <div class="search-modal-header">
+                <h5>Search Jobs</h5>
+                <button class="close-search-modal" id="closeSearchModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="search-modal-body">
+                <div class="form-group">
+                    <label>Job Title or Keywords</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="e.g., Software Engineer">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <div class="input-group">
+                        <span class="input-group-text">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </span>
+                        <input type="text" class="form-control" placeholder="e.g., Remote, San Francisco">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Job Type</label>
+                    <select class="form-select">
+                        <option>Any Type</option>
+                        <option>Full-time</option>
+                        <option>Part-time</option>
+                        <option>Contract</option>
+                        <option>Remote</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary w-100" id="modalSearchBtn">
+                    <i class="fas fa-search me-2"></i> Search Jobs
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic header functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMenuBtn = document.getElementById('closeMenuBtn');
+            
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                closeMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Search functionality
+            const searchTrigger = document.getElementById('searchTrigger');
+            const searchModal = document.getElementById('searchModal');
+            const closeSearchModal = document.getElementById('closeSearchModal');
+            
+            if (searchTrigger && searchModal) {
+                searchTrigger.addEventListener('click', () => {
+                    searchModal.classList.add('active');
+                });
+                
+                closeSearchModal.addEventListener('click', () => {
+                    searchModal.classList.remove('active');
+                });
+            }
+            
+            // User dropdown
+            const userProfile = document.getElementById('userProfile');
+            if (userProfile) {
+                userProfile.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const dropdown = userProfile.nextElementSibling;
+                    dropdown.classList.toggle('show');
+                });
+            }
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.user-profile-dropdown')) {
+                    document.querySelectorAll('.user-dropdown-menu').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+                
+                if (!e.target.closest('.more')) {
+                    document.querySelectorAll('.more-dropdown').forEach(menu => {
+                        menu.classList.remove('show');
+                    });
+                }
+            });
+            
+            // More dropdown
+            const moreLink = document.querySelector('.more > a');
+            if (moreLink) {
+                moreLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const dropdown = moreLink.nextElementSibling;
+                    dropdown.classList.toggle('show');
+                });
+            }
+            
+            // Search button
+            const searchBtn = document.getElementById('mainSearchBtn');
+            if (searchBtn) {
+                searchBtn.addEventListener('click', performSearch);
+            }
+            
+            // Enter key in search inputs
+            document.querySelectorAll('.search-input').forEach(input => {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            });
+            
+            // Modal search button
+            const modalSearchBtn = document.getElementById('modalSearchBtn');
+            if (modalSearchBtn) {
+                modalSearchBtn.addEventListener('click', () => {
+                    searchModal.classList.remove('active');
+                    performSearch();
+                });
+            }
+            
+            function performSearch() {
+                const keyword = document.getElementById('jobKeyword')?.value || '';
+                const location = document.getElementById('jobLocation')?.value || '';
+                
+                if (keyword.trim() || location.trim()) {
+                    // Store in localStorage
+                    localStorage.setItem('lastSearch', JSON.stringify({
+                        keyword,
+                        location,
+                        timestamp: new Date().toISOString()
+                    }));
+                    
+                    // Redirect to jobs page
+                    window.location.href = `jobs.html?q=${encodeURIComponent(keyword)}&location=${encodeURIComponent(location)}`;
+                } else {
+                    alert('Please enter search criteria');
+                }
+            }
+            
+            // Highlight current page
+            highlightCurrentPage();
+        });
+        
+        function highlightCurrentPage() {
+            const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+            const navLinks = document.querySelectorAll('.category-nav a, .mobile-nav a');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href && href.includes(currentPage)) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Handle home page
+            if (currentPage === '' || currentPage === 'index.html' || currentPage === 'home.html') {
+                document.querySelectorAll('a[href="home.html"], a[href="/"], a[href="index.html"]').forEach(link => {
+                    link.classList.add('active');
+                });
+            }
+        }
+    </script>
+</body>
+</html>
